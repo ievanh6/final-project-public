@@ -19,4 +19,4 @@
 # `tail -n +2` removes the line with blank space at the beginning of the output
 cat _ncbi_downloads/annotation/Homo_sapiens_genomic_refseq.gff \
 	| perl -ane '$F[8]=~/Genbank:(\w+).*?gene=(\w+)/; print "$1\t$2\n";' \
-	| sort | uniq | tail -n +2 > NCBI_GenbankID_to_gene_name.tsv
+	| sort | uniq | tail -n +2 > data/NCBI_GenbankID_to_gene_name.tsv

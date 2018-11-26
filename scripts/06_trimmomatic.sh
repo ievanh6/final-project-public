@@ -20,8 +20,8 @@
 # e.g. we're trimming any reads that drop below 15 in a window size of 4
 
 for file in "$@"; do
-	TrimmomaticSE -threads 8 $file \
-		data/trimmed/$(basename -s _1.fastq $file).trim.fastq \
-		ILLUMINACLIP:TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 \
-		SLIDINGWINDOW:4:15 MINLEN:36 &
+	TrimmomaticSE -threads 2 $file \
+		data/trimmed/$(basename -s .fastq $file).trim.fastq \
+		ILLUMINACLIP:data/TruSeq3-SE.fa:2:30:10 LEADING:3 TRAILING:3 \
+		SLIDINGWINDOW:4:15 MINLEN:36 CROP:100 &
 done

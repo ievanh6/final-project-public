@@ -7,7 +7,7 @@
 # Call using "bash 03_convert_sra_to_fastq.sh path/to/sra_files/*.sra"
 
 # add sra-toolkit tools to PATH
-export PATH=$PATH:~/fastq-downloads/sratoolkit.2.8.2-1-ubuntu64/bin/
+export PATH=$PATH:~/sratoolkit.2.9.2-ubuntu64/bin/
 
 # convert files in parallel using a loop
 # this process is definitely disk-speed limited
@@ -17,5 +17,5 @@ export PATH=$PATH:~/fastq-downloads/sratoolkit.2.8.2-1-ubuntu64/bin/
 for sra_file in "$@"
 do
 	echo Processing $sra_file
-	fastq-dump.2.8.2 --outdir data/raw_data/fastq/ $sra_file &
+	fastq-dump.2.9.2 --outdir data/raw_data/fastq/ $sra_file &
 done

@@ -27,5 +27,5 @@ do
 		-l U \
 		-r data/trimmed/$sampleID.trim.fastq \
 		-o output/sailfish_quants/$sampleID \
-		-p 88
+		-p 80
 done
