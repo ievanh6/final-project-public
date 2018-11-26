@@ -6,3 +6,6 @@
 .DS_Store
 data/raw_data
 output/filtered
+_ncbi_downloads
+output/sailfish*
+data/trimmed
