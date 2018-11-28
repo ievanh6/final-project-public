@@ -45,11 +45,12 @@ tx2gene <- read.table(paste0("./output/gene_name_lookup_files/",
                           c("TX-NAME", "GENE-NAME"))
 
 # read in the SRA sample metadata table, downloaded from the SRA Run Selector
-samples <- read.table("./data/metadata/ERP001058_SraRunTable.txt",
+samples <- read.table("./data/metadata/SraRunTable.txt",
                       header = TRUE,
                       sep = "\t")
 
-samples <- samples[-c(12, 16),]
+# not sure what this is for, skipping
+# samples <- samples[-c(12, 16),]
 
 # construct vector of paths to each of the sailfish quant files to read in
 # and add names so that the sample names get added to the constructed table
@@ -90,14 +91,10 @@ final_table <- txi$counts %>%
     select(GeneName,
            Sample,
            counts_lengthScaledTPM,
-           LibraryName) %>%
-    mutate(LibraryName = gsub("2_", "2-", LibraryName)) %>%
-    separate(LibraryName, c("name1", "metadata"), sep = ": ", remove = TRUE) %>%
-    separate(metadata, c("method", "group", "rep"), sep = "_", remove = TRUE) %>%
-    mutate(rep = gsub("rep", "", rep)) %>%
-    separate(group, c("group_type", "treatment_time_min"), sep = "-", remove = TRUE) %>%
-    mutate(treatment_time_min = gsub("m", "", treatment_time_min)) %>%
-    select(-(name1))
+           disease_state,
+           source_name,
+           Organism,
+           tissue)
 
 names(final_table) %<>% tolower
 
