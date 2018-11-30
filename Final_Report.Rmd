@@ -46,13 +46,144 @@ These are the methods you used to do your bioinformatic analyses analyses. Shoul
 ```{r load-packages-and-data}
 # load packages as needed
 library("dplyr")
+library("tidyr")
+library("knitr")
+library("ggplot2")
+library("magrittr")
+library("tibble")
+library("DESeq2")
+
+# this package allows for the easy inclusion of literature citations in our Rmd
+# more info here: https://github.com/crsh/citr
+# and here:
+# http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+library("citr")
 
 # load data produced from analysis scripts using
 # something like load("output/processed_data.Rdata")
+load("output/final_compiled_counts/joined_count_data.RData")
+
+# test that it loaded correctly before proceeding
+stopifnot(exists("joined_table"))
 ```
 
 In addition to a minimum of 5-8 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion. 2-3 pages.
 
+1. Volcano plot
+2. Bar plot of gene of interest on x axis and fill comparing psoriasis and healthy
+3. PCA plot
+4. Heatmaps
+5. enrichment?
+
+```{r DESeq-dataset-from-joinedtable}
+# Round the read_abund_for_deseq because it is required to make DESeq dataset
+rounded <- joined_table %>% 
+  mutate_if(is.numeric, ~round(., 0))
+
+# Make a counts table of read_abund_for_deseq from rounded dataset
+# to read into DESeq dataset
+cts <- rounded %>%
+    mutate_if(is.numeric, ~round(., 1)) %>%
+    select(sample, genename, read_abund_for_deseq) %>%
+    arrange(sample) %>%
+    spread(sample, read_abund_for_deseq) %>%
+    column_to_rownames(var = "genename")
+
+# Make a data column table of sample names and corresponding disease_state
+# from rounded dataset to read into DESeq dataset
+coldata <- rounded %>%
+  select(sample, disease_state) %>%
+  distinct(sample, .keep_all = TRUE) %>%
+  arrange(sample)
+
+# Use DESeq to read in the coldata and cts tables into a single DESeq dataset
+# using the chosen design based on the disease_state to make graphs
+dds <- DESeqDataSetFromMatrix(countData = cts,
+                              colData = coldata,
+                              design = ~ disease_state)
+
+# Perform differential expression analysis
+dds <- DESeq(dds)
+
+# Generate results table which extracts the log2 fold changes, p values, and adjusted p values. 
+res <- results(dds)
+
+# Perform log transformation of DESeq dataset for clustering, heatmaps, etc. 
+rld <- rlogTransformation(dds)
+
+vsd <- vst(dds, blind=FALSE)
+
+```
+
+```{r figure-1-PCA-Plot}
+# Create PCA plot comparing disease type groups based on the top 1000 expressed genes
+plotPCA(rld, intgroup = c("disease_state"), ntop = 1000) +
+  ggtitle("Comparison of the Psoriasis Disease \nTypes and Healthy Control")
+```
+
+```{r figure-2-Volcano-Plot}
+
+
+
+
+
+```
+
+```{r figure-3}
+# Inhibitory mechanisms 
+joined_table %>%
+  filter(genename %in% c("CD274",
+                         "CTLA4",
+                         "CD80",
+                         "CD28",
+                         "GZMB",
+                         "FOXP3",
+                         "ITGA7",
+                         "TBX21")) %>%
+  group_by(disease_state, genename) %>%
+  summarise(avg_counts = mean(counts_lengthscaledtpm)) %>%
+  ggplot(aes(x = genename,
+             y = avg_counts,
+             fill = disease_state)) +
+  geom_col(position = "dodge")
+
+
+
+
+
+
+
+
+
+joined_table %>%
+  filter(genename %in% c("IL1B",
+                         "SELL",
+                         "TGFB1",
+                         "IL17A",
+                         "CD274",
+                         "CTLA4",
+                         "CD80",
+                         "CD28")) %>%
+  group_by(disease_state, genename) %>%
+  summarise(avg_counts = mean(counts_lengthscaledtpm)) %>%
+  ggplot(aes(x = genename,
+             y = avg_counts,
+             fill = disease_state)) +
+  geom_col(position = "dodge")
+
+joined_table %>%
+  filter(genename %in% c("STAT3",
+                         "PTPRC")) %>%
+  group_by(disease_state, genename) %>%
+  summarise(avg_counts = mean(counts_lengthscaledtpm)) %>%
+  ggplot(aes(x = genename,
+             y = avg_counts,
+             fill = disease_state)) +
+  geom_col(position = "dodge")
+  
+  
+
+```
 # Discussion
 
 Add around 3-4 pages interpreting your results and considering future directions one might take in analyzing these data.
