@@ -52,6 +52,8 @@ library("ggplot2")
 library("magrittr")
 library("tibble")
 library("DESeq2")
+library("RColorBrewer")
+library("questionr")
 
 # this package allows for the easy inclusion of literature citations in our Rmd
 # more info here: https://github.com/crsh/citr
@@ -111,16 +113,247 @@ res <- results(dds)
 # Perform log transformation of DESeq dataset for clustering, heatmaps, etc. 
 rld <- rlogTransformation(dds)
 
-vsd <- vst(dds, blind = FALSE)
-
 ```
 
 ```{r figure-1-Enrichment-Plot}
+inverse_func <- function(x) {
+  if (x >= 1) {
+    return(x)
+  } else {
+    return(-1 / x)
+  }
+}
 
-
-
-
-
+joined_table %>%
+  mutate(psoriasis_or_healthy = recode(disease_state,
+                                       "psoriasis" = "psoriasis",
+                                       "palmoplantar psoriasis" = "psoriasis",
+                                       "scalp psoriasis" = "psoriasis",
+                                       "healthy control" = "healthy")) %>%
+  mutate(gene_function = recode(genename,
+                                "MKI67" = "Proliferation",
+                                "CDK1" = "Proliferation",
+                                "CDK2" = "Proliferation",
+                                "CDK4" = "Proliferation",
+                                "CDK6" = "Proliferation",
+                                "CDK7" = "Proliferation",
+                                "CDK8" = "Proliferation",
+                                "CDK9" = "Proliferation",
+                                "CDK3" = "Proliferation",
+                                "PCNA" = "Proliferation",
+                                "TOP2A" = "Proliferation",
+                                "MCM2" = "Proliferation",
+                                "MCM3" = "Proliferation",
+                                "MCM4" = "Proliferation",
+                                "MCM5" = "Proliferation",
+                                "MCM6" = "Proliferation",
+                                "MCM7" = "Proliferation",
+                                "MCM8" = "Proliferation",
+                                "MCM9" = "Proliferation",
+                                "ITGA7" = "Cell Adhesion Molecules",
+                                "ITGB1" = "Cell Adhesion Molecules",
+                                "ITGA6" = "Cell Adhesion Molecules",
+                                "ITGB2" = "Cell Adhesion Molecules",
+                                "ITGAV" = "Cell Adhesion Molecules",
+                                "ITGB3" = "Cell Adhesion Molecules",
+                                "ITGA2" = "Cell Adhesion Molecules",
+                                "ITGA4" = "Cell Adhesion Molecules",
+                                "ITGA3" = "Cell Adhesion Molecules",
+                                "ITGA5" = "Cell Adhesion Molecules",
+                                "ITGA2B" = "Cell Adhesion Molecules",
+                                "ITGB4" = "Cell Adhesion Molecules",
+                                "ITGAM" = "Cell Adhesion Molecules",
+                                "ITGAL" = "Cell Adhesion Molecules",
+                                "ITGA1" = "Cell Adhesion Molecules",
+                                "ITGAE" = "Cell Adhesion Molecules",
+                                "ITGA9" = "Cell Adhesion Molecules",
+                                "ITGAX" = "Cell Adhesion Molecules",
+                                "ITGB7" = "Cell Adhesion Molecules",
+                                "ITGA11" = "Cell Adhesion Molecules",
+                                "ITGB6" = "Cell Adhesion Molecules",
+                                "ITGA8" = "Cell Adhesion Molecules",
+                                "ITGB5" = "Cell Adhesion Molecules",
+                                "ITGAD" = "Cell Adhesion Molecules",
+                                "ITGA10" = "Cell Adhesion Molecules",
+                                "VCAM1" = "Cell Adhesion Molecules",
+                                "ICAM1" = "Cell Adhesion Molecules",
+                                "ICAM2" = "Cell Adhesion Molecules",
+                                "ICAM3" = "Cell Adhesion Molecules",
+                                "ICAM4" = "Cell Adhesion Molecules",
+                                "ICAM5" = "Cell Adhesion Molecules",
+                                "SELP" = "Cell Adhesion Molecules",
+                                "SELL" = "Cell Adhesion Molecules",
+                                "ICAM5" = "Cell Adhesion Molecules",
+                                "CXCR1" = "Chemokine Receptors",
+                                "CXCR2" = "Chemokine Receptors",
+                                "CXCR3" = "Chemokine Receptors",
+                                "CXCR4" = "Chemokine Receptors",
+                                "CXCR5" = "Chemokine Receptors",
+                                "CXCR6" = "Chemokine Receptors",
+                                "CXCR7" = "Chemokine Receptors",
+                                "CXCR4" = "Chemokine Receptors",
+                                "CCR1" = "Chemokine Receptors",
+                                "CCR2" = "Chemokine Receptors",
+                                "CCR3" = "Chemokine Receptors",
+                                "CCR4" = "Chemokine Receptors",
+                                "CCR5" = "Chemokine Receptors",
+                                "CCR6" = "Chemokine Receptors",
+                                "CCR7" = "Chemokine Receptors",
+                                "CCR8" = "Chemokine Receptors",
+                                "CCR9" = "Chemokine Receptors",
+                                "CCR10" = "Chemokine Receptors",
+                                "CCR11" = "Chemokine Receptors",
+                                "CXCL1" = "Chemokines",
+                                "CXCL2" = "Chemokines",
+                                "CXCL3" = "Chemokines",
+                                "CXCL4" = "Chemokines",
+                                "CXCL5" = "Chemokines",
+                                "CXCL6" = "Chemokines",
+                                "CXCL7" = "Chemokines",
+                                "CXCL8" = "Chemokines",
+                                "CXCL9" = "Chemokines",
+                                "CXCL10" = "Chemokines",
+                                "CXCL11" = "Chemokines",
+                                "CXCL12" = "Chemokines",
+                                "CXCL13" = "Chemokines",
+                                "CXCL14" = "Chemokines",
+                                "CXCL15" = "Chemokines",
+                                "CXCL16" = "Chemokines",
+                                "CCL1" = "Chemokines",
+                                "CCL2" = "Chemokines",
+                                "CCL3" = "Chemokines",
+                                "CCL4" = "Chemokines",
+                                "CCL5" = "Chemokines",
+                                "CCL6" = "Chemokines",
+                                "CCL7" = "Chemokines",
+                                "CCL8" = "Chemokines",
+                                "CCL9" = "Chemokines",
+                                "CCL10" = "Chemokines",
+                                "CCL11" = "Chemokines",
+                                "CCL12" = "Chemokines",
+                                "CCL13" = "Chemokines",
+                                "CCL14" = "Chemokines",
+                                "CCL15" = "Chemokines",
+                                "CCL16" = "Chemokines",
+                                "CCL17" = "Chemokines",
+                                "CCL18" = "Chemokines",
+                                "CCL19" = "Chemokines",
+                                "CCL20" = "Chemokines",
+                                "CCL21" = "Chemokines",
+                                "CCL22" = "Chemokines",
+                                "CCL23" = "Chemokines",
+                                "CCL24" = "Chemokines",
+                                "CCL26" = "Chemokines",
+                                "CCL27" = "Chemokines",
+                                "CCL28" = "Chemokines",
+                                "CCL1" = "Chemokines",
+                                "TNF" = "Proinflammatory Cytokines",
+                                "TNFRSF1A" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "TNFRSF1B" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "TRAF1" = "Proinflammatory Cytokines Receptors",
+                                "TRAF2" = "Proinflammatory Cytokines Receptors",
+                                "TRAF3" = "Proinflammatory Cytokines Receptors",
+                                "TRAF4" = "Proinflammatory Cytokines Receptors",
+                                "TRAF5" = "Proinflammatory Cytokines Receptors",
+                                "TRAF6" = "Proinflammatory Cytokines Receptors",
+                                "IL1B" = "Proinflammatory Cytokines",
+                                "IL1A" = "Proinflammatory Cytokines",
+                                "IL1R1" = "Proinflammatory Cytokines Receptors",
+                                "IL2" = "Proinflammatory Cytokines",
+                                "IL2RA" = "Proinflammatory Cytokines Receptors",
+                                "IL2RB" = "Proinflammatory Cytokines Receptors",
+                                "IL2RG" = "Proinflammatory Cytokines Receptors",
+                                "IL6" = "Proinflammatory Cytokines",
+                                "IL6R" = "Proinflammatory Cytokines Receptors",
+                                "IL12A" = "Proinflammatory Cytokines",
+                                "IL12B" =
+                                  "Proinflammatory Cytokines",
+                                "IL12RB1" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IL12RB2" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IFNG" =
+                                  "Proinflammatory Cytokines",
+                                "IFNA1" =
+                                  "Proinflammatory Cytokines",
+                                "IFNGR1" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IFNB1" =
+                                  "Proinflammatory Cytokines",
+                                "IFNAR1" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IL18" =
+                                  "Proinflammatory Cytokines",
+                                "IL18R1" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IL18RAP" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IL18BP" = "Proinflammatory Cytokines",
+                                "IL7" = "Proinflammatory Cytokines",
+                                "IL9" = "Proinflammatory Cytokines",
+                                "IL10" = "Proinflammatory Cytokines",
+                                "IL7R" = "Proinflammatory Cytokines",
+                                "IL9R" = "Proinflammatory Cytokines",
+                                "IL10RB" = "Proinflammatory Cytokines",
+                                "IL10RA" = "Proinflammatory Cytokines",
+                                "IL17A" =
+                                  "Proinflammatory Cytokines",
+                                "IL17B" =
+                                  "Proinflammatory Cytokines",
+                                "IL17C" = "Proinflammatory Cytokines",
+                                "IL17D" = "Proinflammatory Cytokines",
+                                "IL17F" =
+                                  "Proinflammatory Cytokines",
+                                "IL17RA" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IL17RB" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "IL17RC" =
+                                  "Proinflammatory Cytokines Receptors",
+                                "CD80" = "Inhibitory Cytokines and Ligands",
+                                "CD86" = "Inhibitory Cytokines and Ligands",
+                                "CD274" = "Inhibitory Cytokines and Ligands",
+                                "BTLA" = "Inhibitory Cytokines and Ligands",
+                                "CD160" = "Inhibitory Cytokines and Ligands",
+                                "PVAR" = "Inhibitory Cytokines and Ligands",
+                                "CD48" = "Inhibitory Cytokines and Ligands",
+                                "LGALS9" = "Inhibitory Cytokines and Ligands",
+                                "CTLA4" = "Inhibitory Receptors",
+                                "PDCD1" = "Inhibitory Receptors",
+                                "HAVCR2" = "Inhibitory Receptors",
+                                "LAG3" = "Inhibitory Receptors",
+                                "TIGIT" = "Inhibitory Receptors",
+                                "CD244" = "Inhibitory Receptors")) %>%
+  filter(gene_function %in% c("Proliferation",
+                              "Cell Adhesion Molecules",
+                              "Chemokine Receptors",
+                              "Proinflammatory Cytokines Receptors",
+                              "Chemokines",
+                              "Proinflammatory Cytokines",
+                              "Inhibitory Cytokines and Ligands",
+                              "Inhibitory Receptors")) %>%
+  group_by(gene_function, psoriasis_or_healthy) %>%
+  summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+  spread(psoriasis_or_healthy, avg_count) %>%
+  transform(fold_expression = psoriasis / healthy) %>%
+  rowwise() %>%
+  mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+  ggplot(aes(x = gene_function,
+             y = inverse_or_return,
+             fill = gene_function)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_brewer(palette = "Spectral", name = "Gene ") +
+  geom_hline(yintercept = 0,
+                color = "grey35", size = 1) +
+  geom_hline(yintercept = -1,
+                color = "grey35", size = .5, linetype = "dashed") +
+  geom_hline(yintercept = 1,
+                color = "grey35", size = .5, linetype = "dashed") +
+  xlab("Gene Set") +
+  ylab("Fold Change")
 ```
 
 
@@ -132,7 +365,10 @@ plotPCA(rld, intgroup = c("disease_state"), ntop = 1000) +
 
 
 ```{r figure-barplots}
-# Inhibitory mechanisms 
+
+
+
+install.packages("gplots")# Inhibitory mechanisms
 joined_table %>%
   filter(genename %in% c("CD274",
                          "CTLA4",
