@@ -406,7 +406,48 @@ joined_table %>%
 ```
 
 
-```{r figure-4-heatmap-cell-adhesion, echo = FALSE}
+```{r figure-4-heatmap-inhibitory-receptors, echo = FALSE}
+inverse_func <- function(x) {
+  if (x >= 1) {
+    return(x)
+  } else {
+    return(-1 / x)
+  }
+}
+
+joined_table %>%
+  filter(genename %in% c("CTLA4",
+                         "PDCD1",
+                         "HAVCR2",
+                         "LAG3",
+                         "TIGIT",
+                         "CD244")) %>%
+  group_by(genename, disease_state) %>%
+  summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+  spread(disease_state, avg_count) %>%
+  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_s = psoriasis / healthy.control) %>%
+  transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
+  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
+  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
+  rowwise() %>%
+  mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+  ggplot(aes(x = fold_change_type,
+             y = genename)) +
+  geom_tile(aes(fill = inverse_or_return)) +
+  xlab("Psoriasis") +
+  ylab("Gene") +
+  ggtitle("") +
+  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+                            "fold_expression_pp" = "Palmoplantar \nPsoriasis",
+                            "fold_expression_s" = "Scalp \nPsoriasis"))
+```
+
+
+```{r figure-5-heatmap-cell-adhesion, echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
