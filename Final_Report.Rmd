@@ -34,7 +34,7 @@ These are the methods you used to do your bioinformatic analyses analyses. Shoul
 
 ## Subsections are ok in the results section too
 
-```{r your-code-here}
+```{r your-code-here, include = FALSE}
 # Add code chunks as needed for your analyses
 # For most analyses, I would recommend splitting the
 # intensive computational part into a seperate R script file
@@ -43,7 +43,7 @@ These are the methods you used to do your bioinformatic analyses analyses. Shoul
 # unclear.
 ```
 
-```{r load-packages-and-data}
+```{r load-packages-and-data, include = FALSE}
 # load packages as needed
 library("dplyr")
 library("tidyr")
@@ -53,7 +53,6 @@ library("magrittr")
 library("tibble")
 library("DESeq2")
 library("RColorBrewer")
-library("questionr")
 
 # this package allows for the easy inclusion of literature citations in our Rmd
 # more info here: https://github.com/crsh/citr
@@ -71,13 +70,9 @@ stopifnot(exists("joined_table"))
 
 In addition to a minimum of 5-8 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion. 2-3 pages.
 
-1. Volcano plot
-2. Bar plot of gene of interest on x axis and fill comparing psoriasis and healthy
-3. PCA plot
-4. Heatmaps
-5. enrichment?
 
-```{r DESeq-dataset-from-joinedtable}
+
+```{r DESeq-dataset-from-joinedtable, include = FALSE}
 # Round the read_abund_for_deseq because it is required to make DESeq dataset
 rounded <- joined_table %>%
   mutate_if(is.numeric, ~round(., 0))
@@ -115,7 +110,7 @@ rld <- rlogTransformation(dds)
 
 ```
 
-```{r figure-1-Enrichment-Plot}
+```{r figure-1-Enrichment-Plot, echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -352,19 +347,106 @@ joined_table %>%
                 color = "grey35", size = .5, linetype = "dashed") +
   geom_hline(yintercept = 1,
                 color = "grey35", size = .5, linetype = "dashed") +
+  ggtitle("Fold Change in Expression of Gene Sets") +
   xlab("Gene Set") +
   ylab("Fold Change")
 ```
 
+**Figure 1**: 
 
-```{r figure-2-PCA-Plot}
+
+```{r figure-2-PCA-Plot, echo = FALSE}
 # Create PCA plot comparing disease type groups based on the top 1000 expressed genes
 plotPCA(rld, intgroup = c("disease_state"), ntop = 1000) +
   ggtitle("Comparison of the Psoriasis Disease \nTypes and Healthy Control")
 ```
 
+**Figure 2**: 
 
-```{r figure-barplots}
+```{r figure-3-heatmap-inhibitory-cytokines-and-ligands, echo = FALSE}
+inverse_func <- function(x) {
+  if (x >= 1) {
+    return(x)
+  } else {
+    return(-1 / x)
+  }
+}
+
+joined_table %>%
+  filter(genename %in% c("CD80",
+                         "CD86",
+                         "CD274",
+                         "BTLA",
+                         "CD160",
+                         "PVAR",
+                         "CD48",
+                         "LGALS9")) %>%
+  group_by(genename, disease_state) %>%
+  summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+  spread(disease_state, avg_count) %>%
+  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_s = psoriasis / healthy.control) %>%
+  transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
+  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
+  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
+  rowwise() %>%
+  mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+  ggplot(aes(x = fold_change_type,
+             y = genename)) +
+  geom_tile(aes(fill = inverse_or_return)) +
+  xlab("Psoriasis") +
+  ylab("Gene") +
+  ggtitle("Fold Change Expression of Inhibitory Cytokine \nand Ligand Genes in Psoriasis Types") +
+  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+                            "fold_expression_pp" = "Palmoplantar \nPsoriasis",
+                            "fold_expression_s" = "Scalp \nPsoriasis"))
+```
+
+
+```{r figure-4-heatmap-proliferation, echo = FALSE}
+inverse_func <- function(x) {
+  if (x >= 1) {
+    return(x)
+  } else {
+    return(-1 / x)
+  }
+}
+
+joined_table %>%
+  filter(genename %in% c("CD80",
+                         "CD86",
+                         "CD274",
+                         "BTLA",
+                         "CD160",
+                         "PVAR",
+                         "CD48",
+                         "LGALS9")) %>%
+  group_by(genename, disease_state) %>%
+  summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+  spread(disease_state, avg_count) %>%
+  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_s = psoriasis / healthy.control) %>%
+  transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
+  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
+  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
+  rowwise() %>%
+  mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+  ggplot(aes(x = fold_change_type,
+             y = genename)) +
+  geom_tile(aes(fill = inverse_or_return)) +
+  xlab("Psoriasis") +
+  ylab("Gene") +
+  ggtitle("") +
+  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+                            "fold_expression_pp" = "Palmoplantar \nPsoriasis",
+                            "fold_expression_s" = "Scalp \nPsoriasis"))
+```
 
 
 
@@ -418,7 +500,7 @@ joined_table %>%
              y = avg_counts,
              fill = disease_state)) +
   geom_col(position = "dodge")
-```
+
 # Discussion
 
 Add around 3-4 pages interpreting your results and considering future directions one might take in analyzing these data.
