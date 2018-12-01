@@ -438,7 +438,7 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("") +
+  ggtitle("Fold Change Expression of Inhibitory \nReceptor Genes in Psoriasis Types") +
   scale_fill_viridis_c(name = "Fold Change \nExpression") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
@@ -447,7 +447,7 @@ joined_table %>%
 ```
 
 
-```{r figure-5-heatmap-cell-adhesion, echo = FALSE}
+```{r figure-5-heatmap-chemokine-receptors, echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -457,40 +457,25 @@ inverse_func <- function(x) {
 }
 
 joined_table %>%
-  filter(genename %in% c("ITGA7",
-                                "ITGB1",
-                                "ITGA6",
-                                "ITGB2",
-                                "ITGAV",
-                                "ITGB3",
-                                "ITGA2",
-                                "ITGA4",
-                                "ITGA3",
-                                "ITGA5",
-                                "ITGA2B",
-                                "ITGB4",
-                                "ITGAM",
-                                "ITGAL",
-                                "ITGA1",
-                                "ITGAE",
-                                "ITGA9",
-                                "ITGAX",
-                                "ITGB7",
-                                "ITGA11",
-                                "ITGB6",
-                                "ITGA8",
-                                "ITGB5",
-                                "ITGAD",
-                                "ITGA10",
-                                "VCAM1",
-                                "ICAM1",
-                                "ICAM2",
-                                "ICAM3",
-                                "ICAM4",
-                                "ICAM5",
-                                "SELP",
-                                "SELL",
-                                "ICAM5")) %>%
+  filter(genename %in% c("CXCR1",
+                         "CXCR2",
+                         "CXCR3",
+                         "CXCR4",
+                         "CXCR5",
+                         "CXCR6",
+                         "CXCR7",
+                         "CXCR4",
+                         "CCR1",
+                         "CCR2",
+                         "CCR3",
+                         "CCR4",
+                         "CCR5",
+                         "CCR6",
+                         "CCR7",
+                         "CCR8",
+                         "CCR9",
+                         "CCR10",
+                         "CCR11")) %>%
   group_by(genename, disease_state) %>%
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
   spread(disease_state, avg_count) %>%
@@ -507,7 +492,7 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("") +
+  ggtitle("Fold Change Expression of Cell Adhesion \nGenes in Psoriasis Types") +
   scale_fill_viridis_c(name = "Fold Change \nExpression") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
