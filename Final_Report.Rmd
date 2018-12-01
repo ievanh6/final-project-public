@@ -110,7 +110,7 @@ rld <- rlogTransformation(dds)
 
 ```
 
-```{r figure-1-Enrichment-Plot, echo = FALSE}
+```{r figure-1-Enrichment-Plot, fig.width = 10, echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -501,59 +501,84 @@ joined_table %>%
 ```
 
 
-
-
-
-install.packages("gplots")# Inhibitory mechanisms
-joined_table %>%
-  filter(genename %in% c("CD274",
-                         "CTLA4",
-                         "CD80",
-                         "CD28",
-                         "GZMB",
-                         "FOXP3",
-                         "ITGA7",
-                         "TBX21")) %>%
-  group_by(disease_state, genename) %>%
-  summarise(avg_counts = mean(counts_lengthscaledtpm)) %>%
-  ggplot(aes(x = genename,
-             y = avg_counts,
-             fill = disease_state)) +
-  geom_col(position = "dodge")
-
-
-
-
-
-
-
-
+```{r figure-6-heatmap-chemokines, echo = FALSE}
+inverse_func <- function(x) {
+  if (x >= 1) {
+    return(x)
+  } else {
+    return(-1 / x)
+  }
+}
 
 joined_table %>%
-  filter(genename %in% c("IL1B",
-                         "SELL",
-                         "TGFB1",
-                         "IL17A",
-                         "CD274",
-                         "CTLA4",
-                         "CD80",
-                         "CD28")) %>%
-  group_by(disease_state, genename) %>%
-  summarise(avg_counts = mean(counts_lengthscaledtpm)) %>%
-  ggplot(aes(x = genename,
-             y = avg_counts,
-             fill = disease_state)) +
-  geom_col(position = "dodge")
+  filter(genename %in% c("CXCL1",
+                                "CXCL2",
+                                "CXCL3",
+                                "CXCL4",
+                                "CXCL5",
+                                "CXCL6",
+                                "CXCL7",
+                                "CXCL8",
+                                "CXCL9",
+                                "CXCL10",
+                                "CXCL11",
+                                "CXCL12",
+                                "CXCL13",
+                                "CXCL14",
+                                "CXCL15",
+                                "CXCL16",
+                                "CCL1",
+                                "CCL2",
+                                "CCL3",
+                                "CCL4",
+                                "CCL5",
+                                "CCL6",
+                                "CCL7",
+                                "CCL8",
+                                "CCL9",
+                                "CCL10",
+                                "CCL11",
+                                "CCL12",
+                                "CCL13",
+                                "CCL14",
+                                "CCL15",
+                                "CCL16",
+                                "CCL17",
+                                "CCL18",
+                                "CCL19",
+                                "CCL20",
+                                "CCL21",
+                                "CCL22",
+                                "CCL23",
+                                "CCL24",
+                                "CCL26",
+                                "CCL27",
+                                "CCL28",
+                                "CCL1")) %>%
+  group_by(genename, disease_state) %>%
+  summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+  spread(disease_state, avg_count) %>%
+  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_s = psoriasis / healthy.control) %>%
+  transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
+  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
+  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
+  rowwise() %>%
+  mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+  ggplot(aes(x = fold_change_type,
+             y = genename)) +
+  geom_tile(aes(fill = inverse_or_return)) +
+  xlab("Psoriasis") +
+  ylab("Gene") +
+  ggtitle("Fold Change Expression of Cell Adhesion \nGenes in Psoriasis Types") +
+  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+                            "fold_expression_pp" = "Palmoplantar \nPsoriasis",
+                            "fold_expression_s" = "Scalp \nPsoriasis"))
+```
 
-joined_table %>%
-  filter(genename %in% c("STAT3",
-                         "PTPRC")) %>%
-  group_by(disease_state, genename) %>%
-  summarise(avg_counts = mean(counts_lengthscaledtpm)) %>%
-  ggplot(aes(x = genename,
-             y = avg_counts,
-             fill = disease_state)) +
-  geom_col(position = "dodge")
 
 # Discussion
 
