@@ -53,6 +53,8 @@ library("magrittr")
 library("tibble")
 library("DESeq2")
 library("RColorBrewer")
+library("ggfortify")
+library("cluster")
 
 # this package allows for the easy inclusion of literature citations in our Rmd
 # more info here: https://github.com/crsh/citr
@@ -110,7 +112,7 @@ rld <- rlogTransformation(dds)
 
 ```
 
-```{r figure-1-Enrichment-Plot, fig.width = 10, echo = FALSE}
+```{r figure-1-Enrichment-Plot, fig.width = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -340,7 +342,7 @@ joined_table %>%
              fill = gene_function)) +
   geom_col() +
   coord_flip() +
-  scale_fill_brewer(palette = "Spectral", name = "Gene ") +
+  scale_fill_brewer(palette = "Spectral", name = "Gene Set") +
   geom_hline(yintercept = 0,
                 color = "grey35", size = 1) +
   geom_hline(yintercept = -1,
@@ -355,15 +357,33 @@ joined_table %>%
 **Figure 1**: 
 
 
-```{r figure-2-PCA-Plot, echo = FALSE}
+```{r figure-2-PCA-Plot, fig.align = "center", echo = FALSE}
 # Create PCA plot comparing disease type groups based on the top 1000 expressed genes
-plotPCA(rld, intgroup = c("disease_state"), ntop = 1000) +
-  ggtitle("Comparison of the Psoriasis Disease \nTypes and Healthy Control")
+PCA <- plotPCA(rld, intgroup = c("disease_state"), ntop = 1000, returnData=TRUE)
+
+percentVar <- round(100 * attr(PCA, "percentVar"))
+
+find_hull <- function(PCA) PCA[chull(PCA$PC1, PCA$PC2), ]
+
+hulls <- ddply(PCA, "disease_state", find_hull)
+
+ggplot(PCA, aes(PC1, PC2, color = disease_state)) +
+        geom_point(size=3) +
+        xlab(paste0("PC1: ",percentVar[1],"% variance")) +
+        ylab(paste0("PC2: ",percentVar[2],"% variance")) +
+  ggtitle("Comparison of the Psoriasis Disease \nTypes and Healthy Control") +
+  geom_polygon(aes(fill = disease_state), data = hulls, alpha = 0.3) +
+  guides(fill=FALSE) +
+  scale_color_discrete(name = "Condition",
+                         labels=c("healthy control" = "Healthy Control",
+                            "palmoplantar psoriasis" = "Palmoplantar Psoriasis",
+                            "psoriasis" = "Conventional Psoriasis",
+                            "scalp psoriasis" = "Scalp Psoriasis"))
 ```
 
 **Figure 2**: 
 
-```{r figure-3-heatmap-inhibitory-cytokines-and-ligands, echo = FALSE}
+```{r figure-3-heatmap-inhibitory-cytokines-and-ligands, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -398,15 +418,14 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Inhibitory Cytokine \nand Ligand Genes in Psoriasis Types") +
-  scale_fill_viridis_c(name = "Fold Change \nExpression") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_gradientn(colours = hm.palette(100), limits = c(-9,10)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
 
 
-```{r figure-4-heatmap-inhibitory-receptors, echo = FALSE}
+```{r figure-4-heatmap-inhibitory-receptors, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -439,7 +458,7 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Inhibitory \nReceptor Genes in Psoriasis Types") +
-  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  scale_fill_gradientn(colours = hm.palette(100), limits = c(-5,5)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
@@ -447,7 +466,7 @@ joined_table %>%
 ```
 
 
-```{r figure-5-heatmap-chemokine-receptors, echo = FALSE}
+```{r figure-5-heatmap-chemokine-receptors, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -492,8 +511,8 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Cell Adhesion \nGenes in Psoriasis Types") +
-  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  ggtitle("Fold Change Expression of Chemokine \nReceptor Genes in Psoriasis Types") +
+ scale_fill_gradientn(colours = hm.palette(100)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
@@ -501,7 +520,7 @@ joined_table %>%
 ```
 
 
-```{r figure-6-heatmap-chemokines, echo = FALSE}
+```{r figure-6-heatmap-chemokines, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -571,12 +590,84 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Cell Adhesion \nGenes in Psoriasis Types") +
-  scale_fill_viridis_c(name = "Fold Change \nExpression") +
+  ggtitle("Fold Change Expression of Chemokine \nGenes in Psoriasis Types") +
+  scale_fill_gradientn(colours = hm.palette(100), limits = c(-60,60)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
+```
+
+
+```{r figure-6-heatmap-chemokines, fig.height = 10, fig.align = "center", echo = FALSE}
+inverse_func <- function(x) {
+  if (x >= 1) {
+    return(x)
+  } else {
+    return(-1 / x)
+  }
+}
+
+joined_table %>%
+  filter(genename %in% c("ITGA7",
+                                "ITGB1",
+                                "ITGA6",
+                                "ITGB2",
+                                "ITGAV",
+                                "ITGB3",
+                                "ITGA2",
+                                "ITGA4",
+                                "ITGA3",
+                                "ITGA5",
+                                "ITGA2B",
+                                "ITGB4",
+                                "ITGAM",
+                                "ITGAL",
+                                "ITGA1",
+                                "ITGAE",
+                                "ITGA9",
+                                "ITGAX",
+                                "ITGB7",
+                                "ITGA11",
+                                "ITGB6",
+                                "ITGA8",
+                                "ITGB5",
+                                "ITGAD",
+                                "ITGA10",
+                                "VCAM1",
+                                "ICAM1",
+                                "ICAM2",
+                                "ICAM3",
+                                "ICAM4",
+                                "ICAM5",
+                                "SELP",
+                                "SELL",
+                                "ICAM5")) %>%
+  group_by(genename, disease_state) %>%
+  summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+  spread(disease_state, avg_count) %>%
+  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_s = psoriasis / healthy.control) %>%
+  transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
+  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
+  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
+  rowwise() %>%
+  mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+  ggplot(aes(x = fold_change_type,
+             y = genename)) +
+  geom_tile(aes(fill = inverse_or_return)) +
+  xlab("Psoriasis") +
+  ylab("Gene") +
+  ggtitle("Fold Change Expression of Chemokine \nGenes in Psoriasis Types") +
+  scale_fill_gradientn(colours = hm.palette(100), limits = c(-6,6)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+                            "fold_expression_pp" = "Palmoplantar \nPsoriasis",
+                            "fold_expression_s" = "Scalp \nPsoriasis"))
+
+hm.palette <- colorRampPalette(rev(brewer.pal(9, 'GnBu')), space='Lab')
+
 ```
 
 
