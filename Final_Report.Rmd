@@ -24,7 +24,10 @@ The orginial aim [@ahn2018] was to identify the heterogeneity on molecular level
 
 ## Sample origin and sequencing
 
-Add about half a page here. In this section instead of first person (I/we), use the authors of the paper you selected, since you'll just be describing what they did, based on the methods in their paper.
+For the experimental groups, a total of 19 patients with psoriasis were recruited from the San Francisco Bay area. Of these patients, 8 had conventional plaque psoriasis, 8 had scalp psoriasis, and 3 had palmoplantar psoriasis. Two 4 mm punch biopsies were taken from active lesions on the trunk and extremities of the conventional plaque psoriasis, on the scalp of scalp psoriasis patients, and on the hand or foot of the palmoplantar psoriasis patients. For the control group, skin was isolated from the trunk or upperlegs of 9 patients. The healthy control skin was obtained from the surgical discards as a results of cosmetic surgery performed on these patients. The biopsies for RNA-Seq were placed in RNALater to preserve the RNA. The biopsies for flow cytometry were placed on gauze dampened with phosphate buffered saline to keep the skin hydrated. All biopsies were then stored at 4 °C until processing of the samples. 
+
+The RNA was extracted from the biopsies strated in RNALater using first the Qiagen Allprep DNA/RNA mini kit. Once extracted, quality control and idetification of mRNA with little degrdation was performed on the Agilent 2100 bioanalyzer in order to filter out any suboptimal mRNA that may interfere with analysis. The quality mRNA that was not discarded was then prepared into a library either the Ovation RNA-Seq System V2 protocol (Nugen) or the Ribozero (Illumina) kits. The prepared libraries were then sequenced on the Illumina Hiseq platform. The reads obtained were paired-end and maintianed a 100 bp length. 
+
 
 ## Computational
 
