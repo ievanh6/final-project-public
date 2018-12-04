@@ -20,7 +20,7 @@ Add about 2-3 pages here. Across the whole manuscript, you should cite at least 
 
 ## Study design
 
-Add about half a page here. In this section instead of first person (I/we), use the authors of the paper you selected, since you'll just be describing what they did, based on the methods in their paper.
+The orginial aim [@ahn2018] was to identify the heterogeneity on molecular level with in psoriasis pateints. They did so by using RNA-Seq in order to identify the differences in gene expression as well as flow cytometry to quantify T cell make-up. Their study essentially consisted of isolating skin samples from psoriasis patients and healthy control skin to extract the RNA and analyze the cells via flow cytometry. The design consisted of 3 experimental groups: scalp psoriasis, palmoplantar psoriasis, and conventional plaque psoriasis. A control group was included as well using a healthy control group. Two 4 mm samples were taken from the active psoriatic lesions of the experimental group skin and from the healthy control skin. For each skin sample, 1 biopsy was used for RNA-Seq analysis and the other was used for flow cytometry analysis. The individulas from which the psoriatic skin was obtained were at least 18 years old and were confirmed to have psoriasis for a minnimum of 6 months. Individuals with psoriasis were not on systemic treatments and abstained from topical treatments for at least 2 weeks so as to not interfere with the data. The study design allowed for the comparison of all psoriasis types between eachother as well as with healthy controls 
 
 ## Sample origin and sequencing
 
@@ -349,7 +349,7 @@ joined_table %>%
                 color = "grey35", size = .5, linetype = "dashed") +
   geom_hline(yintercept = 1,
                 color = "grey35", size = .5, linetype = "dashed") +
-  ggtitle("Fold Change in Expression of Gene Sets") +
+  ggtitle("Fold Change in Expression of Gene Sets \nbetween Psoriasis and Healthy skin") +
   xlab("Gene Set") +
   ylab("Fold Change")
 ```
@@ -392,6 +392,8 @@ inverse_func <- function(x) {
   }
 }
 
+hm.palette <- colorRampPalette(rev(brewer.pal(9, 'Spectral')), space='Lab')
+
 joined_table %>%
   filter(genename %in% c("CD80",
                          "CD86",
@@ -418,7 +420,7 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Inhibitory Cytokine \nand Ligand Genes in Psoriasis Types") +
-  scale_fill_gradientn(colours = hm.palette(100), limits = c(-9,10)) +
+  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-9,10)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
@@ -458,8 +460,7 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Inhibitory \nReceptor Genes in Psoriasis Types") +
-  scale_fill_gradientn(colours = hm.palette(100), limits = c(-5,5)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-5,5)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
@@ -512,8 +513,7 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Chemokine \nReceptor Genes in Psoriasis Types") +
- scale_fill_gradientn(colours = hm.palette(100)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limit = c(-6.5, 6.5)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
@@ -591,15 +591,14 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Chemokine \nGenes in Psoriasis Types") +
-  scale_fill_gradientn(colours = hm.palette(100), limits = c(-60,60)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-40,60)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
 
 
-```{r figure-6-heatmap-chemokines, fig.height = 10, fig.align = "center", echo = FALSE}
+```{r figure-7-heatmap-adhesion, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -659,15 +658,11 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Chemokine \nGenes in Psoriasis Types") +
-  scale_fill_gradientn(colours = hm.palette(100), limits = c(-6,6)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  ggtitle("Fold Change Expression of Cell \nAdhesion Genes in Psoriasis Types") +
+  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-6,6)) +
   scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
-
-hm.palette <- colorRampPalette(rev(brewer.pal(9, 'GnBu')), space='Lab')
-
 ```
 
 
