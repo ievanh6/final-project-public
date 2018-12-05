@@ -33,6 +33,8 @@ The RNA was extracted from the biopsies strated in RNALater using first the Qiag
 
 These are the methods you used to do your bioinformatic analyses analyses. Should probably be between 0.5 and 1 pages. At a very minimum should include citations for DADA2 and phyloseq if you are doing an amplicon study, or other citations as appropriate.
 
+The data prepared by [@ahn2018] were retrieved from the 
+
 # Results
 
 ## Subsections are ok in the results section too
@@ -48,6 +50,7 @@ These are the methods you used to do your bioinformatic analyses analyses. Shoul
 
 ```{r load-packages-and-data, include = FALSE}
 # load packages as needed
+library("plyr")
 library("dplyr")
 library("tidyr")
 library("knitr")
@@ -71,49 +74,17 @@ load("output/final_compiled_counts/joined_count_data.RData")
 
 # test that it loaded correctly before proceeding
 stopifnot(exists("joined_table"))
+
+# load data produced from differential expression analysis script
+load("output/deseq2_data/rld_deseq2_data.RData")
+
+# test that it loaded correctly before proceeding
+stopifnot(exists("rld"))
+
 ```
 
 In addition to a minimum of 5-8 figures/tables (and associated captions), you should include sufficient text in this section to describe what your findings were. Remember that in the results section you just describe what you found, but you don't interpret it - that happens in the discussion. 2-3 pages.
 
-
-
-```{r DESeq-dataset-from-joinedtable, include = FALSE}
-# Round the read_abund_for_deseq because it is required to make DESeq dataset
-rounded <- joined_table %>%
-  mutate_if(is.numeric, ~round(., 0))
-
-# Make a counts table of read_abund_for_deseq from rounded dataset
-# to read into DESeq dataset
-cts <- rounded %>%
-    mutate_if(is.numeric, ~round(., 1)) %>%
-    select(sample, genename, read_abund_for_deseq) %>%
-    arrange(sample) %>%
-    spread(sample, read_abund_for_deseq) %>%
-    column_to_rownames(var = "genename")
-
-# Make a data column table of sample names and corresponding disease_state
-# from rounded dataset to read into DESeq dataset
-coldata <- rounded %>%
-  select(sample, disease_state) %>%
-  distinct(sample, .keep_all = TRUE) %>%
-  arrange(sample)
-
-# Use DESeq to read in the coldata and cts tables into a single DESeq dataset
-# using the chosen design based on the disease_state to make graphs
-dds <- DESeqDataSetFromMatrix(countData = cts,
-                              colData = coldata,
-                              design = ~ disease_state)
-
-# Perform differential expression analysis
-dds <- DESeq(dds)
-
-# Generate results table which extracts the log2 fold changes, p values, and adjusted p values. 
-res <- results(dds)
-
-# Perform log transformation of DESeq dataset for clustering, heatmaps, etc. 
-rld <- rlogTransformation(dds)
-
-```
 
 ```{r figure-1-Enrichment-Plot, fig.width = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
