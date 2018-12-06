@@ -632,6 +632,8 @@ joined_table %>%
 
 **Figure 6**: Heatmap looking at the fold change expression of chemokines amongst the psoriasis subtypes.
 
+We then analyzed expression of chemokines for these chemokine receptors. There was very minimal downregulation of all chemokines looked at for all subtypes, with some variability (figure 6). However, there were some major upregulated chemokines for specific subtypes. CXCL10 and CXCL9 were upregulated mainly in palmoplantar psoriasis while CXCL13 was mainly upregulated in conventianl psoriasis (figure 6). There was also some upregulation of certain chemokines for all subtypes, but to a much less extent than these previous ones mentioned (figure 6).
+
 ```{r figure-7-heatmap-adhesion, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
@@ -712,7 +714,7 @@ joined_table %>%
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
  
-**Figure 5**: Heatmap looking at the fold change expression of adhesion molecules amongst the psoriasis subtypes.
+**Figure 7**: Heatmap looking at the fold change expression of adhesion molecules amongst the psoriasis subtypes.
 
 # Discussion
 
