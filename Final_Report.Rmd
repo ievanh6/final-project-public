@@ -1,7 +1,7 @@
 ---
-title: "Final Report: Your Title Here"
-author: "Don Francisco"
-date: "December 5, 2018"
+title: "Cellular Processes Implicated in Psoriasis and their Differences in Psoriasis Subtypes"
+author: "Evan Henley"
+date: "December 6, 2018"
 output:
     github_document: default
 bibliography: references.bib
@@ -89,7 +89,7 @@ stopifnot(exists("rld"))
 
 ```
 
-We first wanted to identify the major cell mechanisms effected in psoriasis in general, specifically cell adhesion, cytokines, chemokines, inhibition, and proliferation. We looked at the gene sets involved in these mechanisms to see which mechansims were upregulated or downregulated. 
+We first wanted to identify the major cell mechanisms affected in psoriasis in general, specifically cell adhesion, cytokines, chemokines, inhibition, and proliferation. We looked at the gene sets involved in these mechanisms to see which mechansims were upregulated or downregulated. We calculate fold changes in expression to see how upregulated or downregulated certain processes were in psoriasis in general. 
 
 ```{r figure-1-Enrichment-Plot, fig.width = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
@@ -336,6 +336,9 @@ joined_table %>%
 
 **Figure 1**: Bar plot of major gene set involved in key cellular processes that are upregulated or downregulated in psoriasis.
 
+We first found that the expression levels of most of these cellular processes were largely affected, except for two. Specifically, proliferation, inhibition, and chemokines were all largely upregulated (figure 1). Meanwhile, cell adhesion was one process that was largely downregulated (figure 1). Proinflammatory cytokines trended towards downregulation and proinflammatory cytokine receptors trended towards upregulation, but not enough to keep moving forward with these (figure 1). Using this information, we decided to look more closely at those processes that were largely affected across the different psoriasis types.
+
+Before moving forward and looking more in-depth at these cellular processes, we decided to look more closely into the differen subtypes in general. We wnated to gain more insight into these subtypes and gain some more information on exactly how they relate. More specifically, we wanted to see how exactly similar they were and if they showed some distinct phenotypes.
 
 ```{r figure-2-PCA-Plot, fig.align = "center", echo = FALSE}
 # Create PCA plot comparing disease type groups based on the top 1000 expressed genes
@@ -343,7 +346,7 @@ pca <- plotPCA(rld,
                intgroup = c("disease_state"),
                ntop = 1000,
                returnData = TRUE)
-percent_var <- round(100 * attr(pca, "percent_var"))
+percent_var <- round(100 * attr(pca, "percentVar"))
 find_hull <- function(pca) pca[chull(pca$PC1, pca$PC2), ]
 hulls <- ddply(pca, "disease_state", find_hull)
 ggplot(pca, aes(PC1, PC2, color = disease_state)) +
@@ -358,6 +361,9 @@ ggplot(pca, aes(PC1, PC2, color = disease_state)) +
 
 **Figure 2**: PCA plot of the 4 sample groups to infer how the phenotypes of psoriasis differ based on the top 100 differentially expressed genes. 
 
+In order to gain some idea of relatedness between the psoriasis subtypes, we used a principal component analysis approach to calculate the differential expression of the top 1000 variably expressed genes. Using this allowed us to infer some idea of relatedness based on the difference in expression of certain genes. We saw that there was some degree of agregation across the psoriasis subtypes (Figure 2). The healthy controls congregated cleanly together (Figure 2). The subtypes congregated to some extent but there was some overlap between conventional psoriasis and scalp psoriasis (Figure 2). Moreover, the points within each group varied largely on the PC1 axis (Figure 2).
+
+Now that we had some idea of relatedness, we then moved forward as stated before. We bgan by looking at the upregulation or down regulation via fold change acorss the different subtypes to see how these chnaged. We wanted to see if there were many changes from one subtypes to another.
 
 ```{r figure-3-heatmap-inhibitory-cytokines-and-ligands, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
@@ -414,6 +420,8 @@ joined_table %>%
 
 **Figure 3**: Heatmap looking at the fold change expression of inhibitory ligands and cytokines amongst the psoriasis subtypes.
 
+We began by looking at the fold change expression of inhibitory ligands and cytokines to see how their expression changed. We found that there was an overall upregulation as in figure 1 (Figure 3). There was some degree of variability in the expression of this upregulation, however, for many the genes (Figure 3). Additionally, there were some genes that were downregulated overall such as CD160 and even one gene that was slightly downregulated in only palmoplantar psoriasis, LGALS9 (Figure 3).
+
 ```{r figure-4-heatmap-inhibitory-receptors, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
   if (x >= 1) {
@@ -465,6 +473,8 @@ joined_table %>%
 ```
 
 **Figure 4**: Heatmap looking at the fold change expression of inhibitory receptors amongst the psoriasis subtypes.
+
+We then moved to look at the fold change expression of inhibitory receptors across the subtypes. We found an overall upregulation as well, similar to figure 1 (Figure 4). There was much less variability in the degree of upregulation of these genes across the subtypes (Figure 4). Despite this, HAVCR2 was one gene that was slightly downregulated in only palmoplantar psoriasis and scalp psoriasis (Figure 4).
 
 ```{r figure-5-heatmap-chemokine-receptors, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
@@ -530,6 +540,8 @@ joined_table %>%
 ```
 
 **Figure 5**: Heatmap looking at the fold change expression of chemokine receptors amongst the psoriasis subtypes.
+
+After inhibition, we started to analyze expression of chemokines, specfically their receptors. There was mainly upregulation of these genes for all subtypes, but there was also some downregulation of certain genes as well such as CCR10, CCR9, and CXCR5 that was seen for all three (figure 5). Again, the degree to which these were expressed varied across subtype (figure 5). Additionally, CCR3, CCR6, and CCR8 were some receptors that were down regulated in only specific subtypes (figure 5). 
 
 ```{r figure-6-heatmap-chemokines, fig.height = 10, fig.align = "center", echo = FALSE}
 inverse_func <- function(x) {
