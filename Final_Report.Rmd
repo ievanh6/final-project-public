@@ -14,33 +14,32 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-Add about 2-3 pages here. Across the whole manuscript, you should cite at least 20 peer reviewed articles.
+Psoriasis is an autoimmune-like disease isolated mainly to the skin that affects around 125 million individuals across the globe [@Griffiths]. The disease manifests itself as itchy and inflamed lesions on the skin that grow excessively. These lesions appear in various parts of the body on individuals and can be so severe that they can cover large portions of the body such as the entire back or on extremities. These lesion can prove quite bothersome to individuals as they may constantly scratch the lesions, further agitating the area and worsening the disease. Moreover, this scratching can even lead to breaking down of the skin barrier, which acts as a first defense against pathogens. By reducing this defense, it allows for a greater chance of pathogen introduction, putting the individual at greater risk for infection [@bartenjev2000]. Older therapies such as Goeckerman therapy and bleach baths, usually used in atopic dermatitis, have been used to treat the symptoms, stopping growth of the skin or killing bacteria that may irritate the lesions [@gupta_2013; @huang_2009]. Despite their relative success, the treatments are more short term and do not actively address the problem of immune dysfunction within the skin. Recent therapies such as Ustekinumab have be introduced that specifically target pathways in the immune response to avoid this overactive immune behavior, and consequently stop the lesions all together [@McKeage2014].
 
-Psoriasis is an autoimmune-like disease isolated mainly to the skin that affects around 125 million individuals across the globe [@Griffiths]. The disease manifests itself as itchy and inflamed lessions on the skin that grow excessively. These lesions appear in various parts of the body on individuals and can be so severe that they can cover large peortions of the body such as the entire back or on extremities. These lesion can prove quite bothersome to individulas as they may constantly scratch the lesions, further agitating the area and worsening the disease. Moreover, this scratching can even lead to breaking down of the skin barrier, which acts as a first defense against pathogens. By reducing this defense, it allows for a greater chance of pathogen introduction, putting the inidivdual at greater risk for infection [@bartenjev2000]. Older therapies such as Goeckerman therapy and bleach baths, usually used in atopic dermatitis, have been used to treat the symptoms, stopping growth of the skin or killing bacteria that may irritate the lesions [@gupta_2013; @huang_2009]. Despite their relative success, the treatments are more short term and dont actively address the problem of immune dysfunction within the skin. Recent therapies such as Ustekinumab have be introduced that specfically target pathways in the immune response to avoid this overactive immune behavior, and consequently stop the lesions all together [@McKeage2014].
+The pathophysiology of psoriasis is heavily mediated by the immune system, specifically T cell. Keratinocytes are triggered by a factors such as stress, which induces them to release cytokines. These cytokines then activate T cells, namely Th1 and Th17, which further enhance this immune response by releasing more cytokines that introduces other immune cells. This activation leads to inflammation within the lesion microenvironment, which further triggers keratinocytes to start actively proliferating, a response usually induced to shed possible pathogens. Since this initiation of the immune response is heavily initiated by T cells, studying these cells are a major area of interest. Specifically what may be of interest is how these cells are affected in terms of their typical cellular functions. Many cellular functions in the immune system have been researched as being key to immune function. Changes in these critical cellular processes may be key to the dysfunction seen in many autoimmune disease, including psoriasis. Cell adhesion is a key process that enables the physical movement of immune cells into the blood vessels and to sites of inflammation via cell receptors such as selectins [@afanasiev2013]. Cytokines and their chemokine subsets are a major signaling proteins in the immune system that can trigger inflammation and homing of immune cells to specific sites [@baliwag2015; @lee2012]. Inhibitory mechanisms such as CTLA4 and PD1 are major receptors involved in inhibition of immune cells in disease like cancer, dampening the immune system [@hernandez2011; @krummel_1995]. Lastly, cell proliferation via clonal expansion of immune such as T and B cells are what largely drive the inflammation as more inflammatory cells are produced [@denizot1986; @prakken2000]. Taken together, these functions are critical in the immune response, and any dysfunction in these would likely have some degree of effect in normal immune function in disease such as psoriasis.
 
-The pathophysiology of psoriasis is hevaily mediated by the immune system, specifically T cell. Keratinocytes are triggered by a factors such as stress, which induces them to release cytokines. These cytokines then activate T cells, namely Th1 and Th17, which further enhance this immune response by releasing more cytokines that introduces other immune cells. This activation leads to inflammation within the lesion microenvironment, which further triggers keratinicytes to start actively proliferating, a response usually induced to shed possible pathogens. Since this initiation of the immune response is heavily initiated by T cells, studying these cells are a major area of interest. Specifically what may be of interest is how these cells are affected in terms of their typical cellular functions. Many cellular functions in the immune system have been researched as being key to immune function. Changes in these critical cellular procceses may be key to the dysfunction seen in many autoimmune disease, including psoriasis. Cell adhesion is a key process that enables the physical movement of immune cells into the blood vessels and to sites of inflammation via cell receptors such as selectins [@afanasiev2013]. Cytokines and their chemokine subsets are a major signalling protein in the immune system that can trigger inflammation and homing of immune cells to specific sites [@baliwag2015; @lee2012]. Inhibitory mechanisms such as CTLA4 and PD1 are major receptors involved in inhibition of immune cells in disease like cancer, dampening the immune system [@hernandez2011; @krummel_1995]. Lastly, cell proliferation via clonal expansion of immune such as T and B cells are what largely drive the inflammation as more inflammatory cells are produced [@denizot1986; @prakken2000]. All together, the functions are critical in the immune response, and any dysfunction in these would likely have some degree of effect in normal immune function in disease such as psoriasis.
-
-Given that there are so many key processes used by the immune system, we decide that we wanted to look closer at these in psoriasis. Specifcially we wanted to see how the were affected in psoriasis, and if there were any majot chnages between subtypes. In order to investigate this, we looked at major differences in these processes on the genetic level. We did so by using the RNA sequencing data originally generated by [@ahn2018] from active psoriasis lesions and healthy control. They specifcally looked at the psoriasis lesions from patients with conventional psoriasis, palmoplantar psriasis, and scalp psoriasis to look for any molecular changes. All of these subtypes differ mainly in the location to which the lesions are expressed, indicationg some likelly different immune dysfunction phenotypes. Moving forward with this idea, we looked at how cellular processes were affected in psoriasis in general. We then honed in specifcally on the major process affected and sought to undertsand how these differed specifcally across the different psoriasis types. We hypothesized that cell adhesion mechanisms will be reduced, likely in regulatory populations, and migration, inhibition, inflammation, and proliferation mechanisms will be increased, likely in the effector and regulatory populations, in psoriasis so as to favor the autoimmune response. We further built on this and hypothesized that the degree to which these are affected will different between psoriasis type so as favor the phenotype that is key in that specific disease. All together, we aim to gain better understanding in the prcoesses affected in psoriasis and how these may be slightly altered between different subtypes. We hope that these finding may shed some more light onto the exact mechanisms affected in each subtype so that more targeted therapies can be created to specifically treat the exact dysfunctionalities in each subtype. 
+Given that there are so many key processes used by the immune system, we decide that we wanted to look closer at these in psoriasis. Specifically we wanted to see how they were affected in psoriasis, and if there were any major changes between subtypes. In order to investigate this, we looked at major differences in these processes on the genetic level. We did so by using the RNA sequencing data originally generated by [@ahn2018] from active psoriasis lesions and healthy control. They specifically looked at the psoriasis lesions from patients with conventional psoriasis, palmoplantar psoriasis, and scalp psoriasis to look for any molecular changes. All of these subtypes differ mainly in the location to which the lesions are expressed, indicating some likely different immune dysfunction phenotypes. Moving forward with this idea, we looked at how cellular processes were affected in psoriasis in general. We then honed in specifically on the major process affected and sought to understand how these differed specifically across the different psoriasis types. We hypothesized that cell adhesion mechanisms will be reduced, likely in regulatory populations, and migration, inhibition, inflammation, and proliferation mechanisms will be increased, likely in the effector and regulatory populations, in psoriasis so as to favor the autoimmune response. We further built on this and hypothesized that the degree to which these are affected will different between psoriasis type so as favor the phenotype that is key in that specific disease. All together, we aim to gain better understanding in the processes affected in psoriasis and how these may be slightly altered between different subtypes. We hope that these finding may shed some more light onto the exact mechanisms affected in each subtype so that more targeted therapies can be created to specifically treat the exact dysfunctionalities in each subtype.
 
 
 # Methods
 
 ## Study design
 
-The orginial aim [@ahn2018] was to identify the heterogeneity on molecular level with in psoriasis pateints. They did so by using RNA-Seq in order to identify the differences in gene expression as well as flow cytometry to quantify T cell make-up. Their study essentially consisted of isolating skin samples from psoriasis patients and healthy control skin to extract the RNA and analyze the cells via flow cytometry. The design consisted of 3 experimental groups: scalp psoriasis, palmoplantar psoriasis, and conventional plaque psoriasis. A control group was included as well using a healthy control group. Two 4 mm samples were taken from the active psoriatic lesions of the experimental group skin and from the healthy control skin. For each skin sample, 1 biopsy was used for RNA-Seq analysis and the other was used for flow cytometry analysis. The individulas from which the psoriatic skin was obtained were at least 18 years old and were confirmed to have psoriasis for a minnimum of 6 months. Individuals with psoriasis were not on systemic treatments and abstained from topical treatments for at least 2 weeks so as to not interfere with the data. The study design allowed for the comparison of all psoriasis types between eachother as well as with healthy controls 
+The original aim [@ahn2018] was to identify the heterogeneity on molecular level with in psoriasis patients. They did so by using RNA-Seq in order to identify the differences in gene expression as well as flow cytometry to quantify T cell make-up. Their study essentially consisted of isolating skin samples from psoriasis patients and healthy control skin to extract the RNA and analyze the cells via flow cytometry. The design consisted of 3 experimental groups: scalp psoriasis, palmoplantar psoriasis, and conventional plaque psoriasis. A control group was included as well using a healthy control group. Two 4 mm samples were taken from the active psoriatic lesions of the experimental group skin and from the healthy control skin. For each skin sample, 1 biopsy was used for RNA-Seq analysis and the other was used for flow cytometry analysis. The individuals from which the psoriatic skin was obtained were at least 18 years old and were confirmed to have psoriasis for a minimum of 6 months. Individuals with psoriasis were not on systemic treatments and abstained from topical treatments for at least 2 weeks so as to not interfere with the data. The study design allowed for the comparison of all psoriasis types between each other as well as with healthy controls 
 
 ## Sample origin and sequencing
 
-For the experimental groups, a total of 19 patients with psoriasis were recruited from the San Francisco Bay area. Of these patients, 8 had conventional plaque psoriasis, 8 had scalp psoriasis, and 3 had palmoplantar psoriasis. Two 4 mm punch biopsies were taken from active lesions on the trunk and extremities of the conventional plaque psoriasis, on the scalp of scalp psoriasis patients, and on the hand or foot of the palmoplantar psoriasis patients. For the control group, skin was isolated from the trunk or upperlegs of 9 patients. The healthy control skin was obtained from the surgical discards as a results of cosmetic surgery performed on these patients. The biopsies for RNA-Seq were placed in RNALater to preserve the RNA. The biopsies for flow cytometry were placed on gauze dampened with phosphate buffered saline to keep the skin hydrated. All biopsies were then stored at 4 °C until processing of the samples. 
+For the experimental groups, a total of 19 patients with psoriasis were recruited from the San Francisco Bay area. Of these patients, 8 had conventional plaque psoriasis, 8 had scalp psoriasis, and 3 had palmoplantar psoriasis. Two 4 mm punch biopsies were taken from active lesions on the trunk and extremities of the conventional plaque psoriasis, on the scalp of scalp psoriasis patients, and on the hand or foot of the palmoplantar psoriasis patients. For the control group, skin was isolated from the trunk or upper legs of 9 patients. The healthy control skin was obtained from the surgical discards as a results of cosmetic surgery performed on these patients. The biopsies for RNA-Seq were placed in RNALater to preserve the RNA. The biopsies for flow cytometry were placed on gauze dampened with phosphate buffered saline to keep the skin hydrated. All biopsies were then stored at 4 °C until processing of the samples. 
 
-The RNA was extracted from the biopsies strated in RNALater using first the Qiagen Allprep DNA/RNA mini kit. Once extracted, quality control and idetification of mRNA with little degrdation was performed on the Agilent 2100 bioanalyzer in order to filter out any suboptimal mRNA that may interfere with analysis. The quality mRNA that was not discarded was then prepared into a library either the Ovation RNA-Seq System V2 protocol (Nugen) or the Ribozero (Illumina) kits. The prepared libraries were then sequenced on the Illumina Hiseq platform [@metzker2010sequencing]. The reads obtained were paired-end and maintianed a 100 bp length. 
+The RNA was extracted from the biopsies started in RNALater using first the Qiagen Allprep DNA/RNA mini kit. Once extracted, quality control and identification of mRNA with little degradation was performed on the Agilent 2100 bioanalyzer in order to filter out any suboptimal mRNA that may interfere with analysis. The quality mRNA that was not discarded was then prepared into a library either the Ovation RNA-Seq System V2 protocol (Nugen) or the Ribozero (Illumina) kits. The prepared libraries were then sequenced on the Illumina Hiseq platform [@metzker2010sequencing]. The reads obtained were paired-end and maintained a 100 bp length. 
 
 
 ## Computational
 
-The data from [@ahn2018] used for this analysis were download from the Gene Expression Omnibus using the accession number GSE117405 using the SRA toolkit. The FASTQ files were then used to to perform quality control of the reads within the files based on the quality scores assigned to the reads. This allowed for the visualization of suboptimal quality regions of reads. The trimmomatic program was used to then identify these lower quality regions of reads and trim them if their quality score begins to fall below the threshold of 15 [@bolger2014]. Once the reads were cleaned to avoid errors from read sequences, the data was then ready for further processing. The human reference genome, transcripts, and annotation were downloaded from the NCBI RefSeq database in order to align the trimmed reads to the genome in order to idenitfy the genes expressed. The biomartr program was used to download these data as it allows for a controlled and reproducible manner of retrieving such information [@drost2017]. Once this data was obtained, the reads were ready to be aligned. The sailfish package was used in order to index the reads and align them to the provided refernce genome [@patro2014]. Counts of these aligned reads were then generated using the same package. These aligned transcripts were then identified via their GenBank IDs, which were used to obtain the gene names of these transcripts. Counts were ultimately consolidated into a singled gene count table containing normalized and non-normalized gene counts which could be used for analysis. 
+The data from [@ahn2018] used for this analysis were download from the Gene Expression Omnibus using the accession number GSE117405 using the SRA toolkit. The FASTQ files were then used to perform quality control of the reads within the files based on the quality scores assigned to the reads. This allowed for the visualization of suboptimal quality regions of reads. The trimmomatic program was used to then identify these lower quality regions of reads and trim them if their quality score begins to fall below the threshold of 15 [@bolger2014]. Once the reads were cleaned to avoid errors from read sequences, the data was then ready for further processing. The human reference genome, transcripts, and annotation were downloaded from the NCBI RefSeq database in order to align the trimmed reads to the genome in order to identify the genes expressed. The biomartr program was used to download these data as it allows for a controlled and reproducible manner of retrieving such information [@drost2017]. Once this data was obtained, the reads were ready to be aligned. The sailfish package was used in order to index the reads and align them to the provided reference genome [@patro2014]. Counts of these aligned reads were then generated using the same package. These aligned transcripts were then identified via their GenBank IDs, which were used to obtain the gene names of these transcripts. Counts were ultimately consolidated into a singled gene count table containing normalized and non-normalized gene counts which could be used for analysis. 
 
-The prepared data table was then analyzed in RStudio to produce the graphs here. Data was manipulated to look at expression of genes of interest via normailized counts across the conditions to see changes in psoriasis and the types of psoriasis. The non-normalized counts were also used to perform differential analysis via DESeq2 for figure 2 in order to cluster samples based on the top 1000 gene variablly expressed genes [@Love2014]. 
+The prepared data table was then analyzed in RStudio to produce the graphs here. Data was manipulated to look at expression of genes of interest via normalized counts across the conditions to see changes in psoriasis and the types of psoriasis. The non-normalized counts were also used to perform differential analysis via DESeq2 for figure 2 in order to cluster samples based on the top 1000 gene differentially expressed genes [@Love2014].
+
 
 # Results
 
@@ -329,7 +328,8 @@ joined_table %>%
                 color = "grey35", size = .5, linetype = "dashed") +
   geom_hline(yintercept = 1,
                 color = "grey35", size = .5, linetype = "dashed") +
-  ggtitle("Fold Change in Expression of Gene Sets \nbetween Psoriasis and Healthy skin") +
+  ggtitle("Fold Change in Expression of Gene Sets
+\nbetween Psoriasis and Healthy skin") +
   xlab("Gene Set") +
   ylab("Fold Change")
 ```
@@ -339,26 +339,21 @@ joined_table %>%
 
 ```{r figure-2-PCA-Plot, fig.align = "center", echo = FALSE}
 # Create PCA plot comparing disease type groups based on the top 1000 expressed genes
-PCA <- plotPCA(rld, intgroup = c("disease_state"), ntop = 1000, returnData=TRUE)
-
-percentVar <- round(100 * attr(PCA, "percentVar"))
-
-find_hull <- function(PCA) PCA[chull(PCA$PC1, PCA$PC2), ]
-
-hulls <- ddply(PCA, "disease_state", find_hull)
-
-ggplot(PCA, aes(PC1, PC2, color = disease_state)) +
-        geom_point(size=3) +
-        xlab(paste0("PC1: ",percentVar[1],"% variance")) +
-        ylab(paste0("PC2: ",percentVar[2],"% variance")) +
+pca <- plotPCA(rld,
+               intgroup = c("disease_state"),
+               ntop = 1000,
+               returnData = TRUE)
+percent_var <- round(100 * attr(pca, "percent_var"))
+find_hull <- function(pca) pca[chull(pca$PC1, pca$PC2), ]
+hulls <- ddply(pca, "disease_state", find_hull)
+ggplot(pca, aes(PC1, PC2, color = disease_state)) +
+        geom_point(size = 3) +
+        xlab(paste0("PC1: ", percent_var[1], "% variance")) +
+        ylab(paste0("PC2: ", percent_var[2], "% variance")) +
   ggtitle("Comparison of the Psoriasis Disease \nTypes and Healthy Control") +
   geom_polygon(aes(fill = disease_state), data = hulls, alpha = 0.3) +
-  guides(fill=FALSE) +
-  scale_color_discrete(name = "Condition",
-                         labels=c("healthy control" = "Healthy Control",
-                            "palmoplantar psoriasis" = "Palmoplantar Psoriasis",
-                            "psoriasis" = "Conventional Psoriasis",
-                            "scalp psoriasis" = "Scalp Psoriasis"))
+  guides(fill = FALSE) +
+  scale_color_discrete(name = "Condition")
 ```
 
 **Figure 2**: PCA plot of the 4 sample groups to infer how the phenotypes of psoriasis differ based on the top 100 differentially expressed genes. 
@@ -373,7 +368,7 @@ inverse_func <- function(x) {
   }
 }
 
-hm.palette <- colorRampPalette(rev(brewer.pal(9, 'Spectral')), space='Lab')
+hm_palette <- colorRampPalette(rev(brewer.pal(9, "Spectral")), space = "Lab")
 
 joined_table %>%
   filter(genename %in% c("CD80",
@@ -387,11 +382,18 @@ joined_table %>%
   group_by(genename, disease_state) %>%
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
   spread(disease_state, avg_count) %>%
-  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_pp =
+              `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
   transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
-  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
-  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(fold_change_type,
+         fold_expression,
+         fold_expression_pp:fold_expression_p) %>%
+  select(genename,
+         palmoplantar.psoriasis,
+         psoriasis, scalp.psoriasis,
+         fold_change_type,
+         fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
@@ -400,9 +402,12 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Inhibitory Cytokine \nand Ligand Genes in Psoriasis Types") +
-  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-9,10)) +
-  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+  ggtitle("Fold Change Expression of Inhibitory Cytokine
+\nand Ligand Genes in Psoriasis Types") +
+  scale_fill_gradientn(name = "Fold Expression Change",
+                       colours = hm_palette(100),
+                       limits = c(-9, 10)) +
+  scale_x_discrete(labels = c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
@@ -428,11 +433,19 @@ joined_table %>%
   group_by(genename, disease_state) %>%
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
   spread(disease_state, avg_count) %>%
-  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_pp =
+              `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
   transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
-  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
-  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(fold_change_type,
+         fold_expression,
+         fold_expression_pp:fold_expression_p) %>%
+  select(genename,
+         palmoplantar.psoriasis,
+         psoriasis,
+         scalp.psoriasis,
+         fold_change_type,
+         fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
@@ -441,9 +454,12 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Inhibitory \nReceptor Genes in Psoriasis Types") +
-  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-5,5)) +
-  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+  ggtitle("Fold Change Expression of Inhibitory
+\nReceptor Genes in Psoriasis Types") +
+  scale_fill_gradientn(name = "Fold Expression Change",
+                       colours = hm_palette(100),
+                       limits = c(-5, 5)) +
+  scale_x_discrete(labels = c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
@@ -482,11 +498,19 @@ joined_table %>%
   group_by(genename, disease_state) %>%
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
   spread(disease_state, avg_count) %>%
-  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_pp =
+              `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
   transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
-  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
-  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(fold_change_type,
+         fold_expression,
+         fold_expression_pp:fold_expression_p) %>%
+  select(genename,
+         palmoplantar.psoriasis,
+         psoriasis,
+         scalp.psoriasis,
+         fold_change_type,
+         fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
@@ -495,9 +519,12 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Chemokine \nReceptor Genes in Psoriasis Types") +
-  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limit = c(-6.5, 6.5)) +
-  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+  ggtitle("Fold Change Expression of Chemokine
+\nReceptor Genes in Psoriasis Types") +
+  scale_fill_gradientn(name = "Fold Expression Change",
+                       colours = hm_palette(100),
+                       limit = c(-6.5, 6.5)) +
+  scale_x_discrete(labels = c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
@@ -561,11 +588,19 @@ joined_table %>%
   group_by(genename, disease_state) %>%
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
   spread(disease_state, avg_count) %>%
-  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_pp =
+              `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
   transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
-  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
-  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
+  gather(fold_change_type,
+         fold_expression,
+         fold_expression_pp:fold_expression_p) %>%
+  select(genename,
+         palmoplantar.psoriasis,
+         psoriasis,
+         scalp.psoriasis,
+         fold_change_type,
+         fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
@@ -575,8 +610,10 @@ joined_table %>%
   xlab("Psoriasis") +
   ylab("Gene") +
   ggtitle("Fold Change Expression of Chemokine \nGenes in Psoriasis Types") +
-  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-40,60)) +
-  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+  scale_fill_gradientn(name = "Fold Expression Change",
+                       colours = hm_palette(100),
+                       limits = c(-40, 60)) +
+  scale_x_discrete(labels = c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
@@ -630,12 +667,22 @@ joined_table %>%
   group_by(genename, disease_state) %>%
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
   spread(disease_state, avg_count) %>%
-  transform(fold_expression_pp = `palmoplantar psoriasis` / `healthy control`) %>%
+  transform(fold_expression_pp =
+              `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
   transform(fold_expression_p = scalp.psoriasis / healthy.control) %>%
-  gather(fold_change_type, fold_expression, fold_expression_pp:fold_expression_p) %>%
-  select(genename, palmoplantar.psoriasis, psoriasis, scalp.psoriasis, fold_change_type, fold_expression) %>%
-  gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
+  gather(fold_change_type,
+         fold_expression,
+         fold_expression_pp:fold_expression_p) %>%
+  select(genename,
+         palmoplantar.psoriasis,
+         psoriasis,
+         scalp.psoriasis,
+         fold_change_type,
+         fold_expression) %>%
+  gather(disease_state,
+         avg_count,
+         palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
   ggplot(aes(x = fold_change_type,
@@ -643,9 +690,12 @@ joined_table %>%
   geom_tile(aes(fill = inverse_or_return)) +
   xlab("Psoriasis") +
   ylab("Gene") +
-  ggtitle("Fold Change Expression of Cell \nAdhesion Genes in Psoriasis Types") +
-  scale_fill_gradientn(name = "Fold Expression Change", colours = hm.palette(100), limits = c(-6,6)) +
-  scale_x_discrete(labels=c("fold_expression_p" = "Conventional \nPsoriasis",
+  ggtitle("Fold Change Expression of Cell
+\nAdhesion Genes in Psoriasis Types") +
+  scale_fill_gradientn(name = "Fold Expression Change",
+                       colours = hm_palette(100),
+                       limits = c(-6, 6)) +
+  scale_x_discrete(labels = c("fold_expression_p" = "Conventional \nPsoriasis",
                             "fold_expression_pp" = "Palmoplantar \nPsoriasis",
                             "fold_expression_s" = "Scalp \nPsoriasis"))
 ```
