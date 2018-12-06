@@ -31,28 +31,28 @@ together (McKeage, 2014).
 
 The pathophysiology of psoriasis is heavily mediated by the immune
 system, specifically T cell. Keratinocytes are triggered by a factors
-such as stress, which induces them to release cytokines. These cytokines
-then activate T cells, namely Th1 and Th17, which further enhance this
-immune response by releasing more cytokines that introduces other immune
-cells. This activation leads to inflammation within the lesion
-microenvironment, which further triggers keratinocytes to start actively
-proliferating, a response usually induced to shed possible pathogens.
-Since this initiation of the immune response is heavily initiated by T
-cells, studying these cells are a major area of interest. Specifically
-what may be of interest is how these cells are affected in terms of
-their typical cellular functions. Many cellular functions in the immune
-system have been researched as being key to immune function. Changes in
-these critical cellular processes may be key to the dysfunction seen in
-many autoimmune disease, including psoriasis. Cell adhesion is a key
-process that enables the physical movement of immune cells into the
-blood vessels and to sites of inflammation via cell receptors such as
-selectins (Afanasiev *et al.*, 2013). Cytokines and their chemokine
-subsets are a major signaling proteins in the immune system that can
-trigger inflammation and homing of immune cells to specific sites
-(Baliwag *et al.*, 2015; Lee and Hwang, 2012). Inhibitory mechanisms
-such as CTLA4 and PD1 are major receptors involved in inhibition of
-immune cells in disease like cancer, dampening the immune system
-(Hernandez-Chacon *et al.*, 2011; Krummel, 1995). Lastly, cell
+such as stress, which induces them to release cytokines (Lande *et al.*,
+2007). These cytokines then activate T cells, namely Th1 and Th17, which
+further enhance this immune response by releasing more cytokines that
+introduces other immune cells. This activation leads to inflammation
+within the lesion microenvironment, which further triggers keratinocytes
+to start actively proliferating, a response usually induced to shed
+possible pathogens. Since this initiation of the immune response is
+heavily initiated by T cells, studying these cells are a major area of
+interest. Specifically what may be of interest is how these cells are
+affected in terms of their typical cellular functions. Many cellular
+functions in the immune system have been researched as being key to
+immune function. Changes in these critical cellular processes may be key
+to the dysfunction seen in many autoimmune disease, including psoriasis.
+Cell adhesion is a key process that enables the physical movement of
+immune cells into the blood vessels and to sites of inflammation via
+cell receptors such as selectins (Afanasiev *et al.*, 2013). Cytokines
+and their chemokine subsets are a major signaling proteins in the immune
+system that can trigger inflammation and homing of immune cells to
+specific sites (Baliwag *et al.*, 2015; Lee and Hwang, 2012). Inhibitory
+mechanisms such as CTLA4 and PD1 are major receptors involved in
+inhibition of immune cells in disease like cancer, dampening the immune
+system (Hernandez-Chacon *et al.*, 2011; Krummel, 1995). Lastly, cell
 proliferation via clonal expansion of immune such as T and B cells are
 what largely drive the inflammation as more inflammatory cells are
 produced (Denizot *et al.*, 1986; Prakken *et al.*, 2000). Taken
@@ -399,6 +399,13 @@ colonization in atopic dermatitis decreases disease severity.
 Krummel,M.F. (1995) CD28 and ctla-4 have opposing effects on the
 response of t cells to stimulation. *Journal of Experimental Medicine*,
 **182**, 459–465.
+
+</div>
+
+<div id="ref-lande2007">
+
+Lande,R. *et al.* (2007) Plasmacytoid dendritic cells sense self-dna
+coupled with antimicrobial peptide. *Nature*, **449**, 564–569.
 
 </div>
 
