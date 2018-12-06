@@ -295,6 +295,14 @@ less extent than these previous ones mentioned (figure
 **Figure 7**: Heatmap looking at the fold change expression of adhesion
 molecules amongst the psoriasis subtypes.
 
+We finally looked at the expression of adhesion molecules and found that
+there was a mix of upregulation and downregulation, but downregualtion
+was more prominent (figure 7). These expression levels were seen
+similarly across all the subtypes with some variability (figure 7).
+There were some genes such as ICAM5 and ITGA10 that were downregulated
+in only palmoplantar psoriasis and scalp psoriasis that was not seen in
+conventional psoriasis (figure 7).
+
 # Discussion
 
 # Sources Cited
