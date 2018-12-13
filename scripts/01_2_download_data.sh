@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # excise column of sample run ids for downloading
 cut -f 6 data/metadata/SraRunTable.txt | tail -n +2 > data/metadata/accessions_to_download.txt
 

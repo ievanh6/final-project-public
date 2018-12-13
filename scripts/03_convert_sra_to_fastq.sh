@@ -16,6 +16,6 @@ export PATH=$PATH:~/sratoolkit.2.9.2-ubuntu64/bin/
 
 for sra_file in "$@"
 do
-	echo Processing $sra_file
-	fastq-dump.2.9.2 --outdir data/raw_data/fastq/ $sra_file &
+	echo Processing "$sra_file"
+	fastq-dump.2.9.2 --outdir data/raw_data/fastq/ "$sra_file" &
 done

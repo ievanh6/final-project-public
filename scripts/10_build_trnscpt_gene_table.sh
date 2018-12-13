@@ -47,7 +47,7 @@ while read -r field1 field2; do
 
 	# do this loop in parallel to go faster
 	echo "$(grep "$field1" output/sailfish_quants/SRR7543026/quant.sf | cut -f1) $field2" >> output/gene_name_lookup_files/transcript_to_gene_lookup.txt &
-done < $1
+done < "$1"
 
 # remove lines that don't have an appropriate trancript ID since these won't
 # be useful to us later anyway. `-P` is to use perl regular expressions

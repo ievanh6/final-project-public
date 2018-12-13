@@ -49,7 +49,7 @@
 # Install NCBI e-utils if needed
 if ! [ -x "$(command -v esearch)" ]; then
   echo 'Error: git is not installed. Now installing...'
-  cd ~
+  cd ~ || exit
   /bin/bash
   perl -MNet::FTP -e \
        '$ftp = new Net::FTP("ftp.ncbi.nlm.nih.gov", Passive => 1);
@@ -64,7 +64,7 @@ fi
 
 # Download SraRunTable from NCBI given BioProject number
 # Idea from: https://www.biostars.org/p/260190/
-esearch -db sra -query $1 | efetch -format runinfo
+esearch -db sra -query "$1" | efetch -format runinfo
 
 # 
 # 00_fetch_RunTable.sh ends here

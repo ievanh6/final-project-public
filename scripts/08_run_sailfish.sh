@@ -20,12 +20,12 @@
 # call with bash 08_run_sailfish.sh data/trimmed/*.trim_1P.fastq
 for sample in "$@"
 do
-	sampleID=$(basename -s .trim.fastq $sample)
+	sampleID=$(basename -s .trim.fastq "$sample")
 	echo "--------------------------------------------------"
 	echo "Processing sample $sampleID"
 	sailfish quant -i output/sailfish-index/ \
 		-l U \
-		-r data/trimmed/$sampleID.trim.fastq \
-		-o output/sailfish_quants/$sampleID \
+		-r data/trimmed/"$sampleID".trim.fastq \
+		-o output/sailfish_quants/"$sampleID" \
 		-p 80
 done
