@@ -720,5 +720,7 @@ We finally looked at the expression of adhesion molecules and found that there w
 
 # Discussion
 
+Psoriasis is a disease that reuslts in a plthora of symptoms from itching to soreness that leads to a lesser quality of life. Moreover, these symptoms are due to dyfunction of the immune system and the immmune repsosnes that are mounted. These dysfunctions have been elucidated to some extent, identifying effector T cells as the predominant cell types resulting in the inflammation within the active psoriatic lesions. 
+
 
 # Sources Cited
