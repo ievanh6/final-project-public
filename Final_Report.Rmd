@@ -92,6 +92,7 @@ stopifnot(exists("rld"))
 We first wanted to identify the major cell mechanisms affected in psoriasis in general, specifically cell adhesion, cytokines, chemokines, inhibition, and proliferation. We looked at the gene sets involved in these mechanisms to see which mechansims were upregulated or downregulated. We calculate fold changes in expression to see how upregulated or downregulated certain processes were in psoriasis in general. 
 
 ```{r figure-1-Enrichment-Plot, fig.width = 10, fig.align = "center", echo = FALSE}
+# Custom function to convert any number less than 1 into negative fold expression
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -101,11 +102,13 @@ inverse_func <- function(x) {
 }
 
 joined_table %>%
+# Create row with all psoriasis subtypes renamed as psoriasis
   mutate(psoriasis_or_healthy = recode(disease_state,
                                        "psoriasis" = "psoriasis",
                                        "palmoplantar psoriasis" = "psoriasis",
                                        "scalp psoriasis" = "psoriasis",
                                        "healthy control" = "healthy")) %>%
+# Create row with the cellular process of selected genes
   mutate(gene_function = recode(genename,
                                 "MKI67" = "Proliferation",
                                 "CDK1" = "Proliferation",
@@ -302,6 +305,7 @@ joined_table %>%
                                 "LAG3" = "Inhibitory Receptors",
                                 "TIGIT" = "Inhibitory Receptors",
                                 "CD244" = "Inhibitory Receptors")) %>%
+# Filter genes based on their cellular function
   filter(gene_function %in% c("Proliferation",
                               "Cell Adhesion Molecules",
                               "Chemokine Receptors",
@@ -310,12 +314,20 @@ joined_table %>%
                               "Proinflammatory Cytokines",
                               "Inhibitory Cytokines and Ligands",
                               "Inhibitory Receptors")) %>%
+# Group filtered data based on the cellular function and its condition
   group_by(gene_function, psoriasis_or_healthy) %>%
+# Obtain average read counts of the grouped data
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+# Spread the conditions into two columns containing average read counts
   spread(psoriasis_or_healthy, avg_count) %>%
+# Calculate fold expression change by dividing psoriasis counts
+# by healthy counts
   transform(fold_expression = psoriasis / healthy) %>%
   rowwise() %>%
+# Use created function to get negative fold expression
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+# Graph data to get bar plot looking at fold change in cellular function
+# between psoriasis and healthy skin
   ggplot(aes(x = gene_function,
              y = inverse_or_return,
              fill = gene_function)) +
@@ -341,14 +353,17 @@ We first found that the expression levels of most of these cellular processes we
 Before moving forward and looking more in-depth at these cellular processes, we decided to look more closely into the differen subtypes in general. We wnated to gain more insight into these subtypes and gain some more information on exactly how they relate. More specifically, we wanted to see how exactly similar they were and if they showed some distinct phenotypes.
 
 ```{r figure-2-PCA-Plot, fig.align = "center", echo = FALSE}
-# Create PCA plot comparing disease type groups based on the top 1000 expressed genes
+# Create PCA object using log counts from DESeq data set
 pca <- plotPCA(rld,
                intgroup = c("disease_state"),
                ntop = 1000,
                returnData = TRUE)
+# Create object calculating percent variation in PCA object
 percent_var <- round(100 * attr(pca, "percentVar"))
+# Create hull objects to overlay polygon area map over the data points
 find_hull <- function(pca) pca[chull(pca$PC1, pca$PC2), ]
 hulls <- ddply(pca, "disease_state", find_hull)
+# Graph PCA object and overly polygon area map using hull objects
 ggplot(pca, aes(PC1, PC2, color = disease_state)) +
         geom_point(size = 3) +
         xlab(paste0("PC1: ", percent_var[1], "% variance")) +
@@ -366,6 +381,7 @@ In order to gain some idea of relatedness between the psoriasis subtypes, we use
 Now that we had some idea of relatedness, we then moved forward as stated before. We bgan by looking at the upregulation or down regulation via fold change acorss the different subtypes to see how these chnaged. We wanted to see if there were many changes from one subtypes to another.
 
 ```{r figure-3-heatmap-inhibitory-cytokines-and-ligands, fig.height = 10, fig.align = "center", echo = FALSE}
+# Custom function to convert any number less than 1 into negative fold expression
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -374,9 +390,11 @@ inverse_func <- function(x) {
   }
 }
 
+# Make custom color scale for heatmap
 hm_palette <- colorRampPalette(rev(brewer.pal(9, "Spectral")), space = "Lab")
 
 joined_table %>%
+# Filter inhibitory ligand and protein genes of interest
   filter(genename %in% c("CD80",
                          "CD86",
                          "CD274",
@@ -385,9 +403,14 @@ joined_table %>%
                          "PVAR",
                          "CD48",
                          "LGALS9")) %>%
+# Group data based on filtered genes and the disease state
   group_by(genename, disease_state) %>%
+# Obtain average read counts of the grouped data
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+# Spread the disease states into 4 columns based on average counts
   spread(disease_state, avg_count) %>%
+# Calculate fold expression change by dividing psoriasis counts
+# by healthy counts
   transform(fold_expression_pp =
               `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
@@ -402,7 +425,10 @@ joined_table %>%
          fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
+# Use created function to get negative fold expression
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+# Graph data to get heatmap looking at fold change of genes
+# across different psoriasis types
   ggplot(aes(x = fold_change_type,
              y = genename)) +
   geom_tile(aes(fill = inverse_or_return)) +
@@ -423,6 +449,7 @@ and Ligand Genes in Psoriasis Types") +
 We began by looking at the fold change expression of inhibitory ligands and cytokines to see how their expression changed. We found that there was an overall upregulation as in figure 1 (Figure 3). There was some degree of variability in the expression of this upregulation, however, for many the genes (Figure 3). Additionally, there were some genes that were downregulated overall such as CD160 and even one gene that was slightly downregulated in only palmoplantar psoriasis, LGALS9 (Figure 3).
 
 ```{r figure-4-heatmap-inhibitory-receptors, fig.height = 10, fig.align = "center", echo = FALSE}
+# Custom function to convert any number less than 1 into negative fold expression
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -432,15 +459,21 @@ inverse_func <- function(x) {
 }
 
 joined_table %>%
+# Filter inhibitory receptor genes of interest
   filter(genename %in% c("CTLA4",
                          "PDCD1",
                          "HAVCR2",
                          "LAG3",
                          "TIGIT",
                          "CD244")) %>%
+# Group data based on filtered genes and the disease state
   group_by(genename, disease_state) %>%
+# Obtain average read counts of the grouped data
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+# Spread the disease states into 4 columns based on average counts
   spread(disease_state, avg_count) %>%
+# Calculate fold expression change by dividing psoriasis counts
+# by healthy counts
   transform(fold_expression_pp =
               `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
@@ -456,7 +489,10 @@ joined_table %>%
          fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
+# Use created function to get negative fold expression
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+# Graph data to get heatmap looking at fold change of genes
+# across different psoriasis types
   ggplot(aes(x = fold_change_type,
              y = genename)) +
   geom_tile(aes(fill = inverse_or_return)) +
@@ -477,6 +513,7 @@ Receptor Genes in Psoriasis Types") +
 We then moved to look at the fold change expression of inhibitory receptors across the subtypes. We found an overall upregulation as well, similar to figure 1 (Figure 4). There was much less variability in the degree of upregulation of these genes across the subtypes (Figure 4). Despite this, HAVCR2 was one gene that was slightly downregulated in only palmoplantar psoriasis and scalp psoriasis (Figure 4).
 
 ```{r figure-5-heatmap-chemokine-receptors, fig.height = 10, fig.align = "center", echo = FALSE}
+# Custom function to convert any number less than 1 into negative fold expression
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -486,6 +523,7 @@ inverse_func <- function(x) {
 }
 
 joined_table %>%
+# Filter chemokine receptor genes of interest
   filter(genename %in% c("CXCR1",
                          "CXCR2",
                          "CXCR3",
@@ -505,9 +543,14 @@ joined_table %>%
                          "CCR9",
                          "CCR10",
                          "CCR11")) %>%
+# Group data based on filtered genes and the disease state
   group_by(genename, disease_state) %>%
+# Obtain average read counts of the grouped data
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+# Spread the disease states into 4 columns based on average counts
   spread(disease_state, avg_count) %>%
+# Calculate fold expression change by dividing psoriasis counts
+# by healthy counts
   transform(fold_expression_pp =
               `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
@@ -523,7 +566,10 @@ joined_table %>%
          fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
+# Use created function to get negative fold expression
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+# Graph data to get heatmap looking at fold change of genes
+# across different psoriasis types
   ggplot(aes(x = fold_change_type,
              y = genename)) +
   geom_tile(aes(fill = inverse_or_return)) +
@@ -544,6 +590,7 @@ Receptor Genes in Psoriasis Types") +
 After inhibition, we started to analyze expression of chemokines, specfically their receptors. There was mainly upregulation of these genes for all subtypes, but there was also some downregulation of certain genes as well such as CCR10, CCR9, and CXCR5 that was seen for all three (figure 5). Again, the degree to which these were expressed varied across subtype (figure 5). Additionally, CCR3, CCR6, and CCR8 were some receptors that were down regulated in only specific subtypes (figure 5). 
 
 ```{r figure-6-heatmap-chemokines, fig.height = 10, fig.align = "center", echo = FALSE}
+# Custom function to convert any number less than 1 into negative fold expression
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -553,6 +600,7 @@ inverse_func <- function(x) {
 }
 
 joined_table %>%
+# Filter chemokine genes of interest
   filter(genename %in% c("CXCL1",
                                 "CXCL2",
                                 "CXCL3",
@@ -597,9 +645,14 @@ joined_table %>%
                                 "CCL27",
                                 "CCL28",
                                 "CCL1")) %>%
+# Group data based on filtered genes and the disease state
   group_by(genename, disease_state) %>%
+# Obtain average read counts of the grouped data
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+# Spread the disease states into 4 columns based on average counts
   spread(disease_state, avg_count) %>%
+# Calculate fold expression change by dividing psoriasis counts
+# by healthy counts
   transform(fold_expression_pp =
               `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
@@ -615,7 +668,10 @@ joined_table %>%
          fold_expression) %>%
   gather(disease_state, avg_count, palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
+# Use created function to get negative fold expression
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+# Graph data to get heatmap looking at fold change of genes
+# across different psoriasis types
   ggplot(aes(x = fold_change_type,
              y = genename)) +
   geom_tile(aes(fill = inverse_or_return)) +
@@ -635,6 +691,7 @@ joined_table %>%
 We then analyzed expression of chemokines for these chemokine receptors. There was very minimal downregulation of all chemokines looked at for all subtypes, with some variability (figure 6). However, there were some major upregulated chemokines for specific subtypes. CXCL10 and CXCL9 were upregulated mainly in palmoplantar psoriasis while CXCL13 was mainly upregulated in conventianl psoriasis (figure 6). There was also some upregulation of certain chemokines for all subtypes, but to a much less extent than these previous ones mentioned (figure 6).
 
 ```{r figure-7-heatmap-adhesion, fig.height = 10, fig.align = "center", echo = FALSE}
+# Custom function to convert any number less than 1 into negative fold expression
 inverse_func <- function(x) {
   if (x >= 1) {
     return(x)
@@ -644,6 +701,7 @@ inverse_func <- function(x) {
 }
 
 joined_table %>%
+# Filter adhesion genes of interest
   filter(genename %in% c("ITGA7",
                                 "ITGB1",
                                 "ITGA6",
@@ -678,9 +736,14 @@ joined_table %>%
                                 "SELP",
                                 "SELL",
                                 "ICAM5")) %>%
+# Group data based on filtered genes and the disease state
   group_by(genename, disease_state) %>%
+# Obtain average read counts of the grouped data
   summarise(avg_count = mean(counts_lengthscaledtpm)) %>%
+# Spread the disease states into 4 columns based on average counts
   spread(disease_state, avg_count) %>%
+# Calculate fold expression change by dividing psoriasis counts
+# by healthy counts
   transform(fold_expression_pp =
               `palmoplantar psoriasis` / `healthy control`) %>%
   transform(fold_expression_s = psoriasis / healthy.control) %>%
@@ -698,7 +761,10 @@ joined_table %>%
          avg_count,
          palmoplantar.psoriasis:scalp.psoriasis) %>%
   rowwise() %>%
+# Use created function to get negative fold expression
   mutate(inverse_or_return = inverse_func(fold_expression)) %>%
+# Graph data to get heatmap looking at fold change of genes
+# across different psoriasis types
   ggplot(aes(x = fold_change_type,
              y = genename)) +
   geom_tile(aes(fill = inverse_or_return)) +
@@ -729,6 +795,5 @@ Before delving into our second set of approaches, we wanted to really understand
 Our second set of appraoches aimed to look at the differences in inhibition, chemokines, and adhesion across the psoriasis types to see if there may be some differences in the cellular processes affected. Both inhibitory cytokines and ligands as well as their receptors were all mostly increased across all psoriasis types. Most of the genes were all similarly affected, but some genes were differentially affected. LGALS9 was decreased in palmoplantar psoriasis and HAVCR2 was decreased in palmoplantar and scalp psoriasis. These indicate that certain inhibiotry mechanisms are unaffceted in certain psoriasis types. These observtaions were similar across all cellular processes looked at. For chemokines, the chemokine receptors CCR3, CCR6, and CCR8 and chemokines CXCL9, CXCL10, and CXCL13 were all expressed differently to a great extent across all the types. Again, these indicate that certain chemokines are implicated more in certain psoriasis types than others. Looking lastly at adhesion genes, many were expressed differantially such as ICAM5 and ITGA10 in palmoplantar and scalp psoriasis. These again appear to show that certain genes are differentially expressd across psoriasis types. All together, the data make it evident that although alle these genes are affected similarly overall, certain genes within the cellular processes are affected to different extents across the psoriasis subtypes. Despite these differences, they still likely contribute to the pathopysiology of the disease and possibly into why these different psoriasis types exist.
 
 Our results ultimately demonstrate that key cellular processes are affected in psoriasis on the genetic level. The way in which these cellular processes are affected are what likely favor the autoimnu ebehavior seen in psoriasis. We show that these differences extend to the different psoriasis types, but that these differences vary between these types. Overall, these differences still contribute to the autoimmune behavior that is occuring in psoriasis, but the specific genes that are being affected may play a different role. It could be that the differential expression of these genes in different psoriasis types is what is actually causing these psoriasis types to occur. In other words, these exact differences are the likely cuase of why these lesions are occuring on feet and hands in palmoplantar psoriasis and the scalp in scalp psoriais. Despite this, it also highlights the specifc mechnaisms affected within the different cellular processes of the psoriasis subtypes. This may explain why certain drugs may work for some individuals but nother. Moreover, this may give some insight into drug development and how we may need to develop more drugs that are targeted for certain psoriasis types based on these differences. We anticipate that these results act as a starting point for undersdtanding the differences in the pathophysiologoy of psoriasis and its subtypes. Furthermore, we hope that these reults are taken into account when devloping drugs so that pateints can get more targeted relief from their symptoms. 
-
 
 # Sources Cited
