@@ -69,5 +69,6 @@ res <- results(dds)
 # Perform log transformation of DESeq dataset for clustering, heatmaps, etc. 
 rld <- rlogTransformation(dds)
 
+# Save the file so it can be read in by knit in the .Rmd
 save(rld,
      file = "./output/deseq2_data/rld_deseq2_data.RData")
