@@ -15,7 +15,7 @@
 for file in "$@"
 do
 	# extract sample ID from file name
-	SAMPLE=$(basename -s _1.fastq $file)
+	SAMPLE=$(basename -s _1.fastq "$file")
 
 	# check if output file for given input already exists
 	# if not, run Trimmomatic
@@ -23,10 +23,11 @@ do
 	# so after running 06_trimmomatic.sh, there remain a bunch of files that are
 	# not yet trimmed. The `if` statement checks if a given input already has
 	# output files, and if it does not, then it trims it
-	if [ `ls data/trimmed | grep -c $SAMPLE` -eq 0 ]
+	# shellcheck disable=SC2010
+	if [ "$(ls data/trimmed | grep -c "$SAMPLE")" -eq 0 ]
 	then
-		TrimmomaticPE -threads 8 -basein $file \
-		  -baseout data/trimmed/$(basename -s _1.fastq $file).trim.fastq \
+		TrimmomaticPE -threads 8 -basein "$file" \
+		  -baseout data/trimmed/"$(basename -s _1.fastq "$file")".trim.fastq \
 		  ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 \
 		  SLIDINGWINDOW:4:20 MINLEN:50 &
 	fi

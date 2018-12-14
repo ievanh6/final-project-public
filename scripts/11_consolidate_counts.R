@@ -20,7 +20,7 @@
 ## http://bioconductor.org/packages/release/bioc/vignettes/tximport/inst/doc/tximport.html
 
 # set to TRUE to get some extra output to help troubleshoot
-DEBUG <- FALSE
+debug <- FALSE
 
 ## install needed packages
 ## first thing get biocLite: source("https://bioconductor.org/biocLite.R")
@@ -49,9 +49,6 @@ samples <- read.table("./data/metadata/SraRunTable.txt",
                       header = TRUE,
                       sep = "\t")
 
-# not sure what this is for, skipping
-# samples <- samples[-c(12, 16),]
-
 # construct vector of paths to each of the sailfish quant files to read in
 # and add names so that the sample names get added to the constructed table
 files <- file.path(".", "output", "sailfish_quants", samples$Run, "quant.sf")
@@ -68,7 +65,7 @@ txi <- tximport(files,
                 countsFromAbundance = "lengthScaledTPM")
 
 # print out a peak at this dataset to make sure it's ok
-if (DEBUG) {
+if (debug) {
   txi$counts[1:4, 1:4]
   str(txi$counts)
 }
@@ -86,7 +83,7 @@ final_table <- txi$counts %>%
     gather(key = "Sample",
            value = "counts_lengthScaledTPM",
            -GeneName) %>%
-    left_join(samples, by = c("Sample" = "Run"))%>%
+    left_join(samples, by = c("Sample" = "Run")) %>%
     mutate_if(is.factor, as.character) %>%
     select(GeneName,
            Sample,
