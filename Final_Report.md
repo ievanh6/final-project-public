@@ -163,7 +163,7 @@ reference genome (Patro *et al.*, 2014). Counts of these aligned reads
 were then generated using the same package. These aligned transcripts
 were then identified via their GenBank IDs, which were used to obtain
 the gene names of these transcripts. Counts were ultimately consolidated
-into a singled gene count table containing normalized and non-normalized
+into a single gene count table containing normalized and non-normalized
 gene counts which could be used for analysis.
 
 The prepared data table was then analyzed in RStudio to produce the
@@ -176,19 +176,17 @@ expressed genes (Love *et al.*, 2014).
 
 # Results
 
-## Subsections are ok in the results section too
-
 We first wanted to identify the major cell mechanisms affected in
 psoriasis in general, specifically cell adhesion, cytokines, chemokines,
 inhibition, and proliferation. We looked at the gene sets involved in
-these mechanisms to see which mechansims were upregulated or
-downregulated. We calculate fold changes in expression to see how
+these mechanisms to see which mechanisms were upregulated or
+downregulated. We calculated fold changes in expression to see how
 upregulated or downregulated certain processes were in psoriasis in
 general.
 
 <img src="Final_Report_files/figure-gfm/figure-1-Enrichment-Plot-1.png" style="display: block; margin: auto;" />
 
-**Figure 1**: Bar plot of major gene set involved in key cellular
+**Figure 1**: Bar plot of major gene sets involved in key cellular
 processes that are upregulated or downregulated in psoriasis.
 
 We first found that the expression levels of most of these cellular
@@ -203,8 +201,8 @@ processes that were largely affected across the different psoriasis
 types.
 
 Before moving forward and looking more in-depth at these cellular
-processes, we decided to look more closely into the differen subtypes in
-general. We wnated to gain more insight into these subtypes and gain
+processes, we decided to look more closely into the different subtypes
+in general. We wanted to gain more insight into these subtypes and gain
 some more information on exactly how they relate. More specifically, we
 wanted to see how exactly similar they were and if they showed some
 distinct
@@ -213,7 +211,7 @@ phenotypes.
 <img src="Final_Report_files/figure-gfm/figure-2-PCA-Plot-1.png" style="display: block; margin: auto;" />
 
 **Figure 2**: PCA plot of the 4 sample groups to infer how the
-phenotypes of psoriasis differ based on the top 100 differentially
+phenotypes of psoriasis differ based on the top 1,000 differentially
 expressed genes.
 
 In order to gain some idea of relatedness between the psoriasis
@@ -221,16 +219,18 @@ subtypes, we used a principal component analysis approach to calculate
 the differential expression of the top 1000 variably expressed genes.
 Using this allowed us to infer some idea of relatedness based on the
 difference in expression of certain genes. We saw that there was some
-degree of agregation across the psoriasis subtypes (Figure 2). The
+degree of aggregation across the psoriasis subtypes (Figure 2). The
 healthy controls congregated cleanly together (Figure 2). The subtypes
 congregated to some extent but there was some overlap between
 conventional psoriasis and scalp psoriasis (Figure 2). Moreover, the
-points within each group varied largely on the PC1 axis (Figure 2).
+points within each group varied largely on the PC1 axis and to a lesser
+extent on the PC2 axis (Figure 2).
 
 Now that we had some idea of relatedness, we then moved forward as
-stated before. We bgan by looking at the upregulation or down regulation
-via fold change acorss the different subtypes to see how these chnaged.
-We wanted to see if there were many changes from one subtypes to
+stated before. We began by looking at the upregulation or down
+regulation via fold change across the different subtypes to see how
+these changed. We wanted to see if there were many changes from one
+subtypes to
 another.
 
 <img src="Final_Report_files/figure-gfm/figure-3-heatmap-inhibitory-cytokines-and-ligands-1.png" style="display: block; margin: auto;" />
@@ -266,7 +266,7 @@ only palmoplantar psoriasis and scalp psoriasis (Figure
 receptors amongst the psoriasis subtypes.
 
 After inhibition, we started to analyze expression of chemokines,
-specfically their receptors. There was mainly upregulation of these
+specifically their receptors. There was mainly upregulation of these
 genes for all subtypes, but there was also some downregulation of
 certain genes as well such as CCR10, CCR9, and CXCR5 that was seen for
 all three (figure 5). Again, the degree to which these were expressed
@@ -285,7 +285,7 @@ There was very minimal downregulation of all chemokines looked at for
 all subtypes, with some variability (figure 6). However, there were some
 major upregulated chemokines for specific subtypes. CXCL10 and CXCL9
 were upregulated mainly in palmoplantar psoriasis while CXCL13 was
-mainly upregulated in conventianl psoriasis (figure 6). There was also
+mainly upregulated in conventional psoriasis (figure 6). There was also
 some upregulation of certain chemokines for all subtypes, but to a much
 less extent than these previous ones mentioned (figure
 6).
@@ -296,14 +296,126 @@ less extent than these previous ones mentioned (figure
 molecules amongst the psoriasis subtypes.
 
 We finally looked at the expression of adhesion molecules and found that
-there was a mix of upregulation and downregulation, but downregualtion
+there was a mix of upregulation and downregulation, but downregulation
 was more prominent (figure 7). These expression levels were seen
 similarly across all the subtypes with some variability (figure 7).
 There were some genes such as ICAM5 and ITGA10 that were downregulated
-in only palmoplantar psoriasis and scalp psoriasis that was not seen in
+in only palmoplantar psoriasis and scalp psoriasis that were not seen in
 conventional psoriasis (figure 7).
 
 # Discussion
+
+Psoriasis is a disease that results in a plethora of symptoms from
+itching to soreness that leads to a lesser quality of life. Moreover,
+these symptoms are due to dysfunction of the immune system and the
+immune responses that are mounted. These dysfunctions have been
+elucidated to some extent, identifying effector T cells as the
+predominant cell types resulting in the inflammation within the active
+psoriatic lesions. This research into these mechanisms of psoriasis have
+given us insight into the pathophysiology of the disease and allowed us
+to develop drugs to rescue these immune dysfunctions. Specifically, we
+have been able to develop drugs that target certain immune activating
+mechanisms such as cytokine release. Despite this, some drugs may not
+work for individuals who have different types of psoriasis and many may
+still experience symptoms. Our results here demonstrate some of the
+major cellular processes affected in different types of psoriasis. Our
+work aims to shed light on other aspects that are affected in psoriasis,
+as it relates to the immune system, so that we may develop drugs to not
+only treat symptoms, but that are targeted for the type of psoriasis a
+patient has.
+
+We first approached the data by looking at all of the gene cell
+functions that may be affected in psoriasis in general compared to
+healthy controls. We wanted to first find the most altered cellular
+functions so that we could focus on these later when looking at the
+different psoriasis types. We immediately found that cell adhesion was
+decreased in psoriasis while proliferation, inhibition, and migration
+(chemokines) were increased in psoriasis. It was surprising to find that
+inflammation (cytokines) were not largely affected as it is these
+molecules that are being released to initiate inflammation in the
+psoriatic lesions. Despite this, these findings were generally in line
+with our hypothesis that cell adhesion mechanisms would be reduced while
+migration, inhibition, and proliferation mechanisms would be increased.
+These findings made sense with the believed biology that is occurring in
+these psoriatic lesions. The decreases in cell adhesion and increases in
+inhibition is likely occurring with regulatory T cells. These cells are
+known to infiltrate into sites of inflammation and dampen overactive
+immune responses, especially those that may be autoimmune. These cells
+are likely losing their adhesive proteins so that they cannot physically
+attach as well to blood vessel walls to travel to the lesions and dampen
+the immune response. These cells are also likely producing more
+inhibitory receptors while effector cells causing the inflammation are
+likely producing more inhibitory ligands and cytokines. This results in
+the likely decrease in regulatory T cells so that they cannot perform
+their necessary function in the lesion, permitting the autoimmune
+behavior in the lesions to continue. The increase in migration is likely
+occurring with the effector T cells as well as with other immune cell
+types. These cells are producing more chemokines and chemokine receptors
+so that they are being recruited much more efficiently to the lesions.
+Given these observations, we decided to look further into these across
+the psoriasis types. We decided to not look further into proliferation
+as this could be occurring in the proliferating keratinocytes and/or in
+the immune cells, making it difficult to really infer what is happening.
+
+Before delving into our second set of approaches, we wanted to really
+understand how the psoriasis phenotypes differed between each other.
+This allows us to infer some idea of how different these psoriasis
+subtypes are, likely meaning there may be different processes being
+affected between psoriasis types. The psoriasis types appeared to
+segregate to an extent, especially on the PC2 axis, based on the top
+1000 differentially expressed genes. This indicates that there is to
+some degree a difference between the psoriasis types. Although this
+separation may not be significant, it appears to be trending towards
+separation. Based on this, we expect the cellular processes we intend to
+focus on to vary across the psoriasis types.
+
+Our second set of approaches aimed to look at the differences in
+inhibition, chemokines, and adhesion across the psoriasis types to see
+if there may be some differences in the cellular processes affected.
+Both inhibitory cytokines and ligands as well as their receptors were
+all mostly increased across all psoriasis types. Most of the genes were
+all similarly affected, but some genes were differentially affected.
+LGALS9 was decreased in palmoplantar psoriasis and HAVCR2 was decreased
+in palmoplantar and scalp psoriasis. These findings indicate that
+certain inhibitory mechanisms are unaffected in certain psoriasis types.
+These observations were similar across all cellular processes looked at.
+For chemokines, the chemokine receptors CCR3, CCR6, and CCR8 and
+chemokines CXCL9, CXCL10, and CXCL13 were all expressed differently to a
+great extent across all the types. Again, these indicate that certain
+chemokines are implicated more in certain psoriasis types than others.
+Looking lastly at adhesion genes, many were expressed differentially
+such as ICAM5 and ITGA10 in palmoplantar and scalp psoriasis. These
+again appear to show that certain genes are differentially expressed
+across psoriasis types. Altogether, the data make it evident that
+although all these genes are affected similarly overall, certain genes
+within the cellular processes are affected to different extents across
+the psoriasis subtypes. Despite these differences, they still likely
+contribute to the pathophysiology of the disease and possibly into why
+these different psoriasis types exist.
+
+Our results ultimately demonstrate that key cellular processes are
+affected in psoriasis on the genetic level. The way in which these
+cellular processes are affected are what likely favor the autoimmune
+behavior seen in psoriasis. We show that these differences extend to the
+different psoriasis types, but that these differences vary between these
+types. Overall, these differences still contribute to the autoimmune
+behavior that is occurring in psoriasis, but the specific genes that are
+being affected may play a different role. It could be that the
+differential expression of these genes in different psoriasis types is
+what is actually causing these psoriasis types to occur. In other words,
+these exact differences are the likely cause of why these lesions are
+occurring on feet and hands in palmoplantar psoriasis and the scalp in
+scalp psoriasis. Despite this, it also highlights the specific
+mechanisms affected within the different cellular processes of the
+psoriasis subtypes. This may explain why certain drugs may work for some
+individuals but not for others. Moreover, this may give some insight
+into drug development and how we may need to develop more drugs that are
+targeted for certain psoriasis types based on these differences. We
+anticipate that these results act as a starting point for understanding
+the differences in the pathophysiology of psoriasis and its subtypes.
+Furthermore, we hope that these results are taken into account when
+developing drugs so that patients can get more targeted relief from
+their symptoms.
 
 # Sources Cited
 
